@@ -5,4 +5,8 @@
     <string name="globe">Maps</string>
     <string name="ranking">Classement</string>
     <string name="betting">Draft</string>
+    <string name="pilotes">Pilotes</string>
+    <string name="constructeurs">Constructeurs</string>
+    <string name="nom_du_pilote">Nom du Pilote</string>
+    <string name="points">Points</string>
 </resources>

@@ -5,6 +5,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import API.ServiceAPI;
 
@@ -17,7 +19,10 @@ public class Driver {
     private ServiceAPI Api;
 
     public Driver(String id) throws IOException, JSONException {
-        parseFromJson(Api.getDriverDetails(id), id);
+        parseFromJsonDriver(Api.getDriverDetails(id), id);
+    }
+
+    public Driver() {
     }
 
     public String getId() { return id; }
@@ -45,14 +50,12 @@ public class Driver {
     public void setPoints(int points) { this.points = points; }
 
     public int getRanking() { return ranking; }
-    public void setRanking(int Json) throws IOException { Api.getCurrentRankings(); }
+    public void setRanking(int pos) throws IOException { this.ranking = pos; }
 
     public Team getTeam() { return team; }
     public void setTeam(Team team) { this.team = team; }
 
-
-
-    public static void parseFromJson(String driverJson, String id) throws JSONException, IOException {
+    public static void parseFromJsonDriver(String driverJson, String id) throws JSONException, IOException {
         JSONObject jsonObject = new JSONObject(driverJson);
         JSONArray DriverStandings = jsonObject.getJSONObject("MRData")
                 .getJSONObject("StandingsTable")
@@ -75,6 +78,30 @@ public class Driver {
         }
     }
 
+    public List<Driver> parseDrivers(String jsonResponse) throws JSONException, IOException {
+        List<Driver> drivers = new ArrayList<>();
+
+        JSONObject jsonObject = new JSONObject(jsonResponse);
+        JSONArray DriverStandings = jsonObject.getJSONObject("MRData")
+                .getJSONObject("StandingsTable")
+                .getJSONArray("StandingsLists")
+                .getJSONObject(0)
+                .getJSONArray("DriverStandings");
+
+        for (int i = 0; i < DriverStandings.length(); i++) {
+            JSONObject standing = DriverStandings.getJSONObject(i);
+            JSONObject driverInfo = standing.getJSONObject("Driver");
+
+            Driver driver = new Driver();
+            driver.setId(driverInfo.getString("driverId"));
+            driver.setPoints(standing.getInt("points"));
+            driver.setRanking(standing.getInt("position"));
+
+            drivers.add(driver);
+        }
+
+        return drivers;
+    }
 
 
 }
