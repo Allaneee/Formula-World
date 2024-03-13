@@ -1,15 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- fragment_ranking.xml -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RankingFragment">
+    tools:context="Fragments.RankingFragment">
+
+    <TextView
+        android:id="@+id/tvClassementTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/ranking"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <LinearLayout
+        android:id="@+id/llToggleGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvClassementTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="9dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvPilotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pilotes"
+            android:textSize="18sp"
+            android:padding="8dp"
+            android:background="@drawable/selector_toggle_left"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <TextView
+            android:id="@+id/tvConstructeurs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Constructeurs"
+            android:textSize="18sp"
+            android:padding="8dp"
+            android:background="@drawable/selector_toggle_right"
+            android:clickable="true"
+            android:focusable="true"/>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rankingRecyclerView"
+        android:id="@+id/rvRanking"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_below="@id/llToggleGroup"
+        android:layout_above="@+id/llPageIndicator"
+        android:layout_marginTop="16dp"/>
 
-</FrameLayout>
+    <LinearLayout
+        android:id="@+id/llPageIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal">
+
+        <!-- Indicateurs de pagination (modifiables selon la logique d'implémentation) -->
+        <ImageView
+            android:id="@+id/ivPage1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/selector_page_indicator" />
+
+        <!-- Ajoutez plus d'indicateurs si nécessaire -->
+
+    </LinearLayout>
+
+</RelativeLayout>
+

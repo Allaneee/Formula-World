@@ -1,16 +1,22 @@
-package com.example.formula_world;
+package Classes;
 
-public class Ecurie {
+import org.json.JSONObject;
+
+public class Team {
     private int id;
     private String nom;
     private int points;
     private int classement;
 
-    public Ecurie(int id, String nom, int points, int classement) {
+    public Team(int id, String nom, int points, int classement) {
         this.id = id;
         this.nom = nom;
         this.points = points;
         this.classement = classement;
+    }
+
+    public static Team parseFromJson(JSONObject constructors) {
+        return null;
     }
 
     // Getters et Setters
@@ -25,5 +31,7 @@ public class Ecurie {
 
     public int getClassement() { return classement; }
     public void setClassement(int classement) { this.classement = classement; }
+
+
 }
 
