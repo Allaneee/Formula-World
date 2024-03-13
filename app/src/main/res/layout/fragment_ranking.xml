@@ -17,10 +17,9 @@
 
     <LinearLayout
         android:id="@+id/llToggleGroup"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvClassementTitle"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="9dp"
         android:orientation="horizontal">
 
@@ -28,32 +27,33 @@
             android:id="@+id/tvPilotes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pilotes"
+            android:text="@string/pilotes"
             android:textSize="18sp"
-            android:padding="8dp"
-            android:background="@drawable/selector_toggle_left"
+            android:padding="10dp"
+            android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true"
+            android:layout_marginStart="75dp"/>
 
         <TextView
             android:id="@+id/tvConstructeurs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Constructeurs"
+            android:text="@string/constructeurs"
             android:textSize="18sp"
-            android:padding="8dp"
-            android:background="@drawable/selector_toggle_right"
+            android:padding="10dp"
+            android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true"
+            android:layout_marginStart="75dp"/>
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRanking"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_below="@id/llToggleGroup"
-        android:layout_above="@+id/llPageIndicator"
-        android:layout_marginTop="16dp"/>
+        android:layout_above="@+id/llPageIndicator"/>
 
     <LinearLayout
         android:id="@+id/llPageIndicator"
@@ -64,16 +64,7 @@
         android:layout_marginBottom="16dp"
         android:orientation="horizontal">
 
-        <!-- Indicateurs de pagination (modifiables selon la logique d'implémentation) -->
-        <ImageView
-            android:id="@+id/ivPage1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/selector_page_indicator" />
-
-        <!-- Ajoutez plus d'indicateurs si nécessaire -->
+        <!-- Les indicateurs de pagination seront gérés dynamiquement ou via un PageIndicatorView -->
 
     </LinearLayout>
-
 </RelativeLayout>
-
