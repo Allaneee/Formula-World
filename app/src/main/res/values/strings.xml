@@ -1,12 +1,11 @@
 <resources>
     <string name="app_name">Formula-World</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="globe">Maps</string>
+    <string name="globe">Course</string>
     <string name="ranking">Classement</string>
     <string name="betting">Draft</string>
     <string name="pilotes">Pilotes</string>
-    <string name="constructeurs">Constructeurs</string>
+    <string name="constructeurs">Teams</string>
     <string name="nom_du_pilote">Nom du Pilote</string>
     <string name="points">Points</string>
 </resources>

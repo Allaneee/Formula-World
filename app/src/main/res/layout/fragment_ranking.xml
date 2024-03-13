@@ -21,31 +21,34 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tvClassementTitle"
         android:layout_marginTop="9dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/tvPilotes"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/pilotes"
             android:textSize="18sp"
             android:padding="10dp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:layout_marginStart="75dp"/>
+            android:gravity="center"/>
 
         <TextView
             android:id="@+id/tvConstructeurs"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/constructeurs"
             android:textSize="18sp"
             android:padding="10dp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:layout_marginStart="75dp"/>
+            android:gravity="center"/>
     </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager
@@ -63,8 +66,5 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="16dp"
         android:orientation="horizontal">
-
-        <!-- Les indicateurs de pagination seront gérés dynamiquement ou via un PageIndicatorView -->
-
     </LinearLayout>
 </RelativeLayout>
