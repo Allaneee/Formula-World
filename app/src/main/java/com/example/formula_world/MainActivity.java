@@ -6,63 +6,43 @@ import androidx.fragment.app.Fragment;
 import Fragments.HomeFragment;
 import Fragments.RankingFragment;
 import Fragments.BettingFragment;
+import com.example.formula_world.R;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.example.formula_world.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
+    ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        loadFragment(new HomeFragment());
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new HomeFragment())
-                    .commit();
-        }
+        binding.bottomNavigation.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.action_globe) {
+                loadFragment(new HomeFragment());
+                return true;
+            } else if (itemId == R.id.action_ranking) {
+                loadFragment(new RankingFragment());
+                return true;
+            } else if (itemId == R.id.action_betting) {
+                loadFragment(new BettingFragment());
+                return true;
+            }
+            return false;
+        });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Gérer les clics d'éléments de menu ici
-        int id = item.getItemId();
-
-        if (id == R.id.action_globe) {
-            // Afficher HomeFragment
-            loadFragment(new HomeFragment());
-            return true;
-        } else if (id == R.id.action_ranking) {
-            // Afficher RankingFragment
-            loadFragment(new RankingFragment());
-            return true;
-        } else if (id == R.id.action_betting) {
-            // Afficher BetsFragment
-            loadFragment(new BettingFragment());
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void loadFragment(Fragment fragment) {
-        // Insérer le fragment en remplaçant tout contenu existant
+        private void loadFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
     }
-
-
-
 }
