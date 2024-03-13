@@ -1,13 +1,13 @@
-package com.example.formula_world;
+package Classes;
 
-public class Pari {
+public class Bet {
     private int id;
     private int idUtilisateur; // Identifiant de l'utilisateur qui fait le pari
     private int idGrandPrix; // Identifiant du Grand Prix sur lequel le pari est fait
     private String choixPilotes; // IDs des pilotes choisis, séparés par des virgules ou un format similaire
     private int score; // Score obtenu sur ce pari
 
-    public Pari(int id, int idUtilisateur, int idGrandPrix, String choixPilotes, int score) {
+    public Bet(int id, int idUtilisateur, int idGrandPrix, String choixPilotes, int score) {
         this.id = id;
         this.idUtilisateur = idUtilisateur;
         this.idGrandPrix = idGrandPrix;

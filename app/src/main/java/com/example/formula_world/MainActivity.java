@@ -3,6 +3,9 @@ package com.example.formula_world;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import Fragments.HomeFragment;
+import Fragments.RankingFragment;
+import Fragments.BettingFragment;
 
 import android.os.Bundle;
 import android.view.Menu;
