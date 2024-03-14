@@ -1,6 +1,14 @@
 package API;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import Classes.Driver;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -8,7 +16,7 @@ import okhttp3.Response;
 public class ServiceAPI {
 
     private final OkHttpClient httpClient = new OkHttpClient();
-    private final String URL = "http://ergast.com/api/f1";
+    private final String URL = "https://ergast.com/api/f1";
     private final String DRIVERS_PHOTO_URL = "https://api.openf1.org/v1/drivers";
 
     // Page classement et prédiction
@@ -49,7 +57,7 @@ public class ServiceAPI {
 
     // Page classement
     public String getTeams() throws IOException {
-        String url = URL + "/2024/constructors.json";
+        String url = URL + "/current/constructorStandings.json";
         return getJson(url);
     }
 
@@ -66,6 +74,7 @@ public class ServiceAPI {
         try (Response response = httpClient.newCall(request).execute()) {
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
+            assert response.body() != null;
             return response.body().string();
         }
     }
