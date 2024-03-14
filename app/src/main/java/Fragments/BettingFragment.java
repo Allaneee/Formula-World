@@ -12,26 +12,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import Adapter.GrandPrixAdapter;
 import Async.FetchRacesTask;
-import Classes.GrandPrix;
+import Classes.GrandPrix.Circuit;
+import Classes.GrandPrix.Location;
+import Classes.GrandPrix.GrandPrix;
 import API.ServiceAPI;
 import Async.OnRacesFetchedListener;
+import Classes.GrandPrix.Practice;
+
 import com.example.formula_world.R;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-
-import java.io.StringReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 public class BettingFragment extends Fragment implements OnRacesFetchedListener {
 
@@ -71,59 +69,56 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener 
     }
 
     @Override
-    public void onRacesFetched(String grandPrixXml) {
-        // Parsez le XML et créez la liste des GrandPrix
-        List<GrandPrix> grandPrixList = parseGrandPrixXml(grandPrixXml);
+    public void onRacesFetched(String grandPrixJson) {
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(grandPrixJson, JsonObject.class);
+        JsonObject raceTable = jsonObject.getAsJsonObject("MRData").getAsJsonObject("RaceTable");
+        JsonElement racesElement = raceTable.get("Races");
 
-        // Initialisez et attachez l'adaptateur au RecyclerView
-        grandPrixAdapter = new GrandPrixAdapter(grandPrixList);
-        recyclerView.setAdapter(grandPrixAdapter);
-    }
+        if (racesElement != null && racesElement.isJsonArray()) {
+            List<GrandPrix> grandPrixList = new ArrayList<>();
+            JsonArray racesArray = racesElement.getAsJsonArray();
 
-    private List<GrandPrix> parseGrandPrixXml(String grandPrixXml) {
-        List<GrandPrix> grandPrixList = new ArrayList<>();
-        Log.d("test",grandPrixXml);
-        try {
-            // Créez un objet DocumentBuilderFactory pour obtenir un objet DocumentBuilder
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
+            for (JsonElement raceElement : racesArray) {
+                JsonObject raceObject = raceElement.getAsJsonObject();
+                JsonObject circuitObject = raceObject.getAsJsonObject("Circuit");
+                JsonObject locationObject = circuitObject.getAsJsonObject("Location");
+                JsonObject firstObject = raceObject.getAsJsonObject("FirstPractice");
+                JsonObject secondObject = raceObject.getAsJsonObject("SecondPractice");
+                JsonObject thirdObject = raceObject.getAsJsonObject("ThirdPractice");
+                JsonObject qualiObject = raceObject.getAsJsonObject("Qualifying");
+                //Log.d("Location", locationObject.toString());
+                Circuit circuit = gson.fromJson(circuitObject, Circuit.class);
+                Location location = gson.fromJson(locationObject, Location.class);
+                Practice practice1 = gson.fromJson(firstObject, Practice.class);
+                Practice practice2 = gson.fromJson(secondObject, Practice.class);
+                Practice practice3 = gson.fromJson(thirdObject, Practice.class);
+                Practice quali = gson.fromJson(qualiObject, Practice.class);
+                location.setLongitude(String.valueOf((locationObject.get("long"))));
+                circuit.setLocation(location);
+                Log.d("Circuit", circuit.toString());
+                // Créez un objet GrandPrix avec les autres informations nécessaires
+                GrandPrix grandPrix = gson.fromJson(raceElement, GrandPrix.class);
+                grandPrix.setCircuit(circuit);
+                grandPrix.setFirstPractice(practice1);
+                grandPrix.setSecondPractice(practice2);
+                grandPrix.setThirdPractice(practice3);
+                grandPrix.setQualifying(quali);
+                // Ajoutez d'autres informations au besoin
 
-            // Analysez la chaîne XML en un objet Document
-            Document doc = builder.parse(new InputSource(new StringReader(grandPrixXml)));
-
-            // Obtenez la liste des éléments 'Race' dans le document XML
-            NodeList raceNodes = doc.getElementsByTagName("Race");
-            for (int i = 0; i < raceNodes.getLength(); i++) {
-                Element raceElement = (Element) raceNodes.item(i);
-                GrandPrix grandPrix = new GrandPrix(
-                        getElementTextContent(raceElement, "RaceName"),
-                        getElementTextContent(raceElement, "CircuitName"),
-                        getElementTextContent(raceElement, "Locality"),
-                        getElementTextContent(raceElement, "Contry"),
-                        getElementTextContent(raceElement, "Date"),
-                        getElementTextContent(raceElement, "Time")
-                );
-                grandPrix.setRaceName(getElementTextContent(raceElement, "RaceName"));
-                grandPrix.setCircuitName(getElementTextContent(raceElement, "CircuitName"));
-                grandPrix.setDate(getElementTextContent(raceElement, "Date"));
-                // Ajoutez l'objet GrandPrix à la liste
                 grandPrixList.add(grandPrix);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        return grandPrixList;
+            // Initialisez et attachez l'adaptateur au RecyclerView
+            grandPrixAdapter = new GrandPrixAdapter(grandPrixList);
+            recyclerView.setAdapter(grandPrixAdapter);
+
+
+            // Faire défiler jusqu'au prochain Grand Prix
+            scrollToNextGP(grandPrixList);
+        }
     }
 
-    // Méthode utilitaire pour obtenir le contenu textuel d'un élément XML
-    private String getElementTextContent(Element parentElement, String tagName) {
-        NodeList nodeList = parentElement.getElementsByTagName(tagName);
-        if (nodeList != null && nodeList.getLength() > 0) {
-            return nodeList.item(0).getTextContent();
-        }
-        return "";
-    }
     private List<GrandPrix> parseGrandPrixJson(String grandPrixJson) {
         List<GrandPrix> grandPrixList = new ArrayList<>();
         Log.d("test",grandPrixJson);
@@ -133,4 +128,40 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener 
         // Exécutez la tâche asynchrone pour récupérer les données des Grands Prix depuis l'API
         new FetchRacesTask(serviceAPI, this).execute();
     }
+
+    private void scrollToNextGP(List<GrandPrix> grandPrixList) {
+        // Logique pour trouver l'index du prochain Grand Prix
+        int nextGPIndex = findNextGPIndex(grandPrixList);
+
+        // Faites défiler jusqu'au prochain Grand Prix
+        recyclerView.scrollToPosition(nextGPIndex);
+    }
+
+    private int findNextGPIndex(List<GrandPrix> grandPrixList) {
+        // Obtenez la date et l'heure actuelles
+        Date currentDate = new Date();
+
+        // Parcourez la liste des Grands Prix pour trouver le prochain
+        for (int i = 0; i < grandPrixList.size(); i++) {
+            GrandPrix grandPrix = grandPrixList.get(i);
+
+            // Convertissez la date du Grand Prix en objet Date
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            try {
+                Date raceDate = dateFormat.parse(grandPrix.getDate() + "T" + grandPrix.getTime());
+
+                // Comparez la date du Grand Prix avec la date actuelle
+                if (raceDate != null && raceDate.after(currentDate)) {
+                    // Si la date du Grand Prix est postérieure à la date actuelle, c'est le prochain
+                    return i;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Si aucun prochain Grand Prix n'est trouvé, retournez 0 (le premier Grand Prix)
+        return 0;
+    }
+
 }
