@@ -16,6 +16,7 @@ public class Driver {
     private int number, points, ranking;
     private String code, firstname, name, dayofbirth, nationality;
     private Team team;
+    private String picURL;
     private ServiceAPI Api;
 
     public Driver(String id) throws IOException, JSONException {
@@ -54,6 +55,14 @@ public class Driver {
 
     public Team getTeam() { return team; }
     public void setTeam(Team team) { this.team = team; }
+
+    public String getPicURL() {
+        return picURL;
+    }
+
+    public void setPicURL(String picURL) {
+        this.picURL = picURL;
+    }
 
     public static void parseFromJsonDriver(String driverJson, String id) throws JSONException, IOException {
         JSONObject jsonObject = new JSONObject(driverJson);
