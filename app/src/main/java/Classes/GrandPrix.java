@@ -1,29 +1,68 @@
 package Classes;
 
 public class GrandPrix {
-    private int id;
-    private String nom;
-    private String lieu;
+    private String raceName;
+    private String circuitName;
+    private String locality;
+    private String country;
     private String date;
+    private String time;
 
-    public GrandPrix(int id, String nom, String lieu, String date) {
-        this.id = id;
-        this.nom = nom;
-        this.lieu = lieu;
+    public GrandPrix(String raceName, String circuitName, String locality, String country, String date, String time) {
+        this.raceName = raceName;
+        this.circuitName = circuitName;
+        this.locality = locality;
+        this.country = country;
         this.date = date;
+        this.time = time;
     }
 
     // Getters et Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public String getRaceName() {
+        return raceName;
+    }
 
-    public String getNom() { return nom; }
-    public void setNom(String nom) { this.nom = nom; }
+    public void setRaceName(String raceName) {
+        this.raceName = raceName;
+    }
 
-    public String getLieu() { return lieu; }
-    public void setLieu(String lieu) { this.lieu = lieu; }
+    public String getCircuitName() {
+        return circuitName;
+    }
 
-    public String getDate() { return date; }
-    public void setDate(String date) { this.date = date; }
+    public void setCircuitName(String circuitName) {
+        this.circuitName = circuitName;
+    }
+
+    public String getLocality() {
+        return locality;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }
-

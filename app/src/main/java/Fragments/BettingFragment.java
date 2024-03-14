@@ -1,49 +1,51 @@
 package Fragments;
 
+// BettingFragment.java
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import Adapter.GrandPrixAdapter;
+import Async.FetchRacesTask;
+import Classes.GrandPrix;
+import API.ServiceAPI;
+import Async.OnRacesFetchedListener;
 import com.example.formula_world.R;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link BettingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class BettingFragment extends Fragment {
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+public class BettingFragment extends Fragment implements OnRacesFetchedListener {
+
+    private ServiceAPI serviceAPI;
+    private RecyclerView recyclerView;
+    private GrandPrixAdapter grandPrixAdapter;
 
     public BettingFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BettingFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static BettingFragment newInstance(String param1, String param2) {
         BettingFragment fragment = new BettingFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,16 +53,84 @@ public class BettingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+        serviceAPI = new ServiceAPI();
+        fetchGrandPrix(); // Chargez la liste des Grands Prix (paris) depuis l'API
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_betting, container, false);
+        View view = inflater.inflate(R.layout.fragment_betting, container, false);
+
+        recyclerView = view.findViewById(R.id.recyclerViewBetting);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        return view;
+    }
+
+    @Override
+    public void onRacesFetched(String grandPrixXml) {
+        // Parsez le XML et créez la liste des GrandPrix
+        List<GrandPrix> grandPrixList = parseGrandPrixXml(grandPrixXml);
+
+        // Initialisez et attachez l'adaptateur au RecyclerView
+        grandPrixAdapter = new GrandPrixAdapter(grandPrixList);
+        recyclerView.setAdapter(grandPrixAdapter);
+    }
+
+    private List<GrandPrix> parseGrandPrixXml(String grandPrixXml) {
+        List<GrandPrix> grandPrixList = new ArrayList<>();
+        Log.d("test",grandPrixXml);
+        try {
+            // Créez un objet DocumentBuilderFactory pour obtenir un objet DocumentBuilder
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+
+            // Analysez la chaîne XML en un objet Document
+            Document doc = builder.parse(new InputSource(new StringReader(grandPrixXml)));
+
+            // Obtenez la liste des éléments 'Race' dans le document XML
+            NodeList raceNodes = doc.getElementsByTagName("Race");
+            for (int i = 0; i < raceNodes.getLength(); i++) {
+                Element raceElement = (Element) raceNodes.item(i);
+                GrandPrix grandPrix = new GrandPrix(
+                        getElementTextContent(raceElement, "RaceName"),
+                        getElementTextContent(raceElement, "CircuitName"),
+                        getElementTextContent(raceElement, "Locality"),
+                        getElementTextContent(raceElement, "Contry"),
+                        getElementTextContent(raceElement, "Date"),
+                        getElementTextContent(raceElement, "Time")
+                );
+                grandPrix.setRaceName(getElementTextContent(raceElement, "RaceName"));
+                grandPrix.setCircuitName(getElementTextContent(raceElement, "CircuitName"));
+                grandPrix.setDate(getElementTextContent(raceElement, "Date"));
+                // Ajoutez l'objet GrandPrix à la liste
+                grandPrixList.add(grandPrix);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return grandPrixList;
+    }
+
+    // Méthode utilitaire pour obtenir le contenu textuel d'un élément XML
+    private String getElementTextContent(Element parentElement, String tagName) {
+        NodeList nodeList = parentElement.getElementsByTagName(tagName);
+        if (nodeList != null && nodeList.getLength() > 0) {
+            return nodeList.item(0).getTextContent();
+        }
+        return "";
+    }
+    private List<GrandPrix> parseGrandPrixJson(String grandPrixJson) {
+        List<GrandPrix> grandPrixList = new ArrayList<>();
+        Log.d("test",grandPrixJson);
+        return grandPrixList;
+    }
+    private void fetchGrandPrix() {
+        // Exécutez la tâche asynchrone pour récupérer les données des Grands Prix depuis l'API
+        new FetchRacesTask(serviceAPI, this).execute();
     }
 }
