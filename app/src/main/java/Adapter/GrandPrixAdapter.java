@@ -1,4 +1,5 @@
 package Adapter;// GrandPrixAdapter.java
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,8 @@ import com.example.formula_world.R;
 
 import java.util.List;
 
-import Classes.GrandPrix;
+import Classes.GrandPrix.Circuit;
+import Classes.GrandPrix.GrandPrix;
 
 public class GrandPrixAdapter extends RecyclerView.Adapter<GrandPrixAdapter.GrandPrixViewHolder> {
 
@@ -51,8 +53,12 @@ public class GrandPrixAdapter extends RecyclerView.Adapter<GrandPrixAdapter.Gran
         }
 
         public void bind(GrandPrix grandPrix) {
+            Circuit circuit = grandPrix.getCircuit();
+            Log.d("grandprix", grandPrix.toString());
             grandPrixNameTextView.setText(grandPrix.getRaceName());
-            grandPrixLocationTextView.setText(grandPrix.getLocality());
+            if(circuit!=null) {
+                grandPrixLocationTextView.setText(circuit.getCircuitName());
+            }
             grandPrixDateTextView.setText(grandPrix.getDate());
         }
     }
