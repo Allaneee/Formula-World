@@ -11,4 +11,5 @@
     <string name="constructeurs">Teams</string>
     <string name="nom_du_pilote">Nom du Pilote</string>
     <string name="points">Points</string>
+    <string name="Position">Pos</string>
 </resources>
