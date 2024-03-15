@@ -2,11 +2,13 @@
     <string name="app_name">Formula-World</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="globe">Course</string>
-    <string name="ranking">Classement</string>
+    <string name="ranking">Position</string>
     <string name="betting">Draft</string>
     <string name="pilotes">Pilotes</string>
     <string name="constructeurs">Teams</string>
     <string name="nom_du_pilote">Nom du Pilote</string>
     <string name="points">Points</string>
     <string name="Position">Pos</string>
+    <string name="todo">TODO</string>
+    <string name="nom_de_la_team">Team</string>
 </resources>
