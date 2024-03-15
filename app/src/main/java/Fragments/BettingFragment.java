@@ -6,12 +6,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import Adapter.DriverAdapter;
+import Adapter.DriverInfoAdapter;
 import Adapter.GrandPrixAdapter;
+import Async.FetchDriverTask;
 import Async.FetchRacesTask;
+import Async.OnDriverFetchedListener;
+import Classes.Driver;
+import Classes.DriverInfo;
 import Classes.GrandPrix.Circuit;
 import Classes.GrandPrix.Location;
 import Classes.GrandPrix.GrandPrix;
@@ -31,10 +39,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class BettingFragment extends Fragment implements OnRacesFetchedListener {
+public class BettingFragment extends Fragment implements OnRacesFetchedListener, OnDriverFetchedListener {
 
     private ServiceAPI serviceAPI;
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerRaceView;
+
+
+    private RecyclerView recyclerDriverView;
+
     private GrandPrixAdapter grandPrixAdapter;
 
     public BettingFragment() {
@@ -61,13 +73,40 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener 
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_betting, container, false);
+        View viewpopup = inflater.inflate(R.layout.popup_layout, container, false);
 
-        recyclerView = view.findViewById(R.id.recyclerViewBetting);
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerDriverView = viewpopup.findViewById(R.id.recyclerViewPilotes);
+
+        recyclerRaceView = view.findViewById(R.id.recyclerViewBetting);
+        recyclerRaceView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         return view;
     }
 
+
+        @Override
+        public void onDriverFetched(String driverJson) {
+            Gson gson = new Gson();
+            JsonObject jsonObject = gson.fromJson(driverJson, JsonObject.class);
+            JsonObject driverTable = jsonObject.getAsJsonObject("MRData").getAsJsonObject("DriverTable");
+            JsonElement driversElement = driverTable.get("Drivers");
+            if (driversElement != null && driversElement.isJsonArray()) {
+                List<DriverInfo> driverList = new ArrayList<>();
+                JsonArray driversArray = driversElement.getAsJsonArray();
+
+                for (JsonElement driverElement : driversArray) {
+                    JsonObject driverObject = driverElement.getAsJsonObject();
+                    DriverInfo driver = gson.fromJson(driverElement, DriverInfo.class);
+                    driverList.add(driver);
+                }
+
+                // Initialisez et attachez l'adaptateur au RecyclerView
+                DriverInfoAdapter DriverAdapter = new DriverInfoAdapter(getActivity(), driverList);
+                recyclerDriverView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                recyclerDriverView.setAdapter(DriverAdapter);
+
+            }
+            }
     @Override
     public void onRacesFetched(String grandPrixJson) {
         Gson gson = new Gson();
@@ -96,7 +135,6 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener 
                 Practice quali = gson.fromJson(qualiObject, Practice.class);
                 location.setLongitude(String.valueOf((locationObject.get("long"))));
                 circuit.setLocation(location);
-                Log.d("Circuit", circuit.toString());
                 // Créez un objet GrandPrix avec les autres informations nécessaires
                 GrandPrix grandPrix = gson.fromJson(raceElement, GrandPrix.class);
                 grandPrix.setCircuit(circuit);
@@ -110,8 +148,8 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener 
             }
 
             // Initialisez et attachez l'adaptateur au RecyclerView
-            grandPrixAdapter = new GrandPrixAdapter(grandPrixList);
-            recyclerView.setAdapter(grandPrixAdapter);
+            grandPrixAdapter = new GrandPrixAdapter(getActivity(),grandPrixList);
+            recyclerRaceView.setAdapter(grandPrixAdapter);
 
 
             // Faire défiler jusqu'au prochain Grand Prix
@@ -119,14 +157,12 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener 
         }
     }
 
-    private List<GrandPrix> parseGrandPrixJson(String grandPrixJson) {
-        List<GrandPrix> grandPrixList = new ArrayList<>();
-        Log.d("test",grandPrixJson);
-        return grandPrixList;
-    }
+
     private void fetchGrandPrix() {
         // Exécutez la tâche asynchrone pour récupérer les données des Grands Prix depuis l'API
         new FetchRacesTask(serviceAPI, this).execute();
+        new FetchDriverTask(serviceAPI, this).execute();
+
     }
 
     private void scrollToNextGP(List<GrandPrix> grandPrixList) {
@@ -134,7 +170,7 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener 
         int nextGPIndex = findNextGPIndex(grandPrixList);
 
         // Faites défiler jusqu'au prochain Grand Prix
-        recyclerView.scrollToPosition(nextGPIndex);
+        recyclerRaceView.scrollToPosition(nextGPIndex);
     }
 
     private int findNextGPIndex(List<GrandPrix> grandPrixList) {
@@ -163,5 +199,7 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener 
         // Si aucun prochain Grand Prix n'est trouvé, retournez 0 (le premier Grand Prix)
         return 0;
     }
+
+
 
 }
