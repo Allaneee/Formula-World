@@ -1,36 +1,21 @@
 package Classes;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import API.ServiceAPI;
-
-
 public class Driver {
-    private static String id; //nom de famille du pilote en minuscule
+    private String id; // nom de famille du pilote en minuscule, rendu non statique
     private int number, points, ranking;
-    private String code, firstname, name, dayofbirth, nationality;
-    private Team team;
-    private String picURL;
-    private ServiceAPI Api;
+    private String code, firstname, name, dayofbirth, nationality, picURL;
+    private Team team; // Assurez-vous que la classe Team est bien définie quelque part
 
-    public Driver(String id) throws IOException, JSONException {
-        parseFromJsonDriver(Api.getDriverDetails(id), id);
-    }
-
+    // Constructeur par défaut
     public Driver() {
     }
 
+    // Getters et setters
     public String getId() { return id; }
-    public void setId(String id) { Driver.id = id; }
+    public void setId(String id) { this.id = id; } // Modifier pour utiliser l'instance courante
 
     public int getNumber() { return number; }
-    public void setNumber(int id) { this.number = id; }
+    public void setNumber(int number) { this.number = number; } // Corriger le paramètre
 
     public String getCode() { return code; }
     public void setCode(String code) { this.code = code; }
@@ -51,65 +36,13 @@ public class Driver {
     public void setPoints(int points) { this.points = points; }
 
     public int getRanking() { return ranking; }
-    public void setRanking(int pos) throws IOException { this.ranking = pos; }
+    public void setRanking(int ranking) { this.ranking = ranking; } // Modifier pour utiliser l'instance courante
 
     public Team getTeam() { return team; }
     public void setTeam(Team team) { this.team = team; }
 
-    public String getPicURL() {
-        return picURL;
-    }
 
-    public void setPicURL(String picURL) {
-        this.picURL = picURL;
-    }
-
-    public static void parseFromJsonDriver(String driverJson, String id) throws JSONException, IOException {
-        JSONObject jsonObject = new JSONObject(driverJson);
-        JSONArray DriverStandings = jsonObject.getJSONObject("MRData")
-                .getJSONObject("StandingsTable")
-                .getJSONArray("StandingsLists")
-                .getJSONObject(0)
-                .getJSONArray("DriverStandings");
-
-        for (int i = 0; i < DriverStandings.length(); i++) {
-            JSONObject driver = DriverStandings.getJSONObject(i).getJSONObject("Driver");
-            if (driver.getString("driverId").equals(id)) {
-                Driver d = new Driver(id);
-                d.setNumber(driver.getInt("permanentNumber"));
-                d.setCode(driver.getString("code"));
-                d.setFirstname(driver.getString("givenName"));
-                d.setName(driver.getString("familyName"));
-                d.setDayofbirth(driver.getString("dateOfBirth"));
-                d.setNationality(driver.getString("nationality"));
-                return;
-            }
-        }
-    }
-
-    public List<Driver> parseDrivers(String jsonResponse) throws JSONException, IOException {
-        List<Driver> drivers = new ArrayList<>();
-
-        JSONObject jsonObject = new JSONObject(jsonResponse);
-        JSONArray DriverStandings = jsonObject.getJSONObject("MRData")
-                .getJSONObject("StandingsTable")
-                .getJSONArray("StandingsLists")
-                .getJSONObject(0)
-                .getJSONArray("DriverStandings");
-
-        for (int i = 0; i < DriverStandings.length(); i++) {
-            JSONObject standing = DriverStandings.getJSONObject(i);
-            JSONObject driverInfo = standing.getJSONObject("Driver");
-
-            Driver driver = new Driver();
-            driver.setId(driverInfo.getString("driverId"));
-            driver.setPoints(standing.getInt("points"));
-            driver.setRanking(standing.getInt("position"));
-
-            drivers.add(driver);
-        }
-
-        return drivers;
-    }
+    public String getPicURL() { return picURL; }
+    public void setPicURL(String picURL) { this.picURL = picURL; }
 
 }
