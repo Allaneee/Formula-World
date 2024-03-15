@@ -3,6 +3,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="globe">Course</string>
     <string name="ranking">Position</string>
+    <string name="map_description">Description de la carte</string>
+
     <string name="betting">Draft</string>
     <string name="pilotes">Pilotes</string>
     <string name="constructeurs">Teams</string>
