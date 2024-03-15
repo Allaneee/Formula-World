@@ -32,9 +32,7 @@ public class TeamFragment extends Fragment {
     private TeamAdapter teamAdapter;
     private ServiceAPI serviceAPI;
 
-    public TeamFragment() {
-        // Required empty public constructor
-    }
+    public TeamFragment() {    }
 
     @SuppressLint("MissingInflatedId")
     @Override
