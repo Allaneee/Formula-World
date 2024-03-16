@@ -13,4 +13,25 @@
     <string name="Position">Pos</string>
     <string name="todo">TODO</string>
     <string name="nom_de_la_team">Team</string>
+
+    <string name="Australian">Australien</string>
+    <string name="British">Britannique</string>
+    <string name="Dutch">Néerlandais</string>
+    <string name="French">Français</string>
+    <string name="German">Allemand</string>
+    <string name="Spanish">Espagnol</string>
+    <string name="Italian">Italien</string>
+    <string name="Finnish">Finlandais</string>
+    <string name="Brazilian">Brésilien</string>
+    <string name="Canadian">Canadien</string>
+    <string name="Mexican">Mexicain</string>
+    <string name="Russian">Russe</string>
+    <string name="Japanese">Japonais</string>
+    <string name="Danish">Danois</string>
+    <string name="Belgian">Belge</string>
+    <string name="Swiss">Suisse</string>
+    <string name="Polish">Polonais</string>
+    <string name="Monegasque">Monégasque</string>
+    <string name="Swedish">Suédois</string>
+    <string name="Austrian">Autrichien</string>
 </resources>

@@ -2,7 +2,6 @@ package Fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,17 +22,17 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DriverFragment extends Fragment {
+public class DriverRankingFragment extends Fragment implements DriverAdapter.DriverClickListener{
 
     private RecyclerView recyclerView;
     private DriverAdapter driverAdapter;
     private ServiceAPI serviceAPI;
 
-    public DriverFragment() {
-        // Required empty public constructor
+    public DriverRankingFragment() {
     }
 
     @Override
@@ -48,6 +47,7 @@ public class DriverFragment extends Fragment {
 
         serviceAPI = new ServiceAPI();
         fetchDriverData();
+        driverAdapter.setDriverClickListener(this);
 
         return view;
     }
@@ -81,14 +81,28 @@ public class DriverFragment extends Fragment {
             for (JsonElement driverStanding : driverStandings) {
                 JsonObject driverObject = driverStanding.getAsJsonObject().getAsJsonObject("Driver");
                 Driver driver = new Driver();
-                driver.setId(driverObject.get("driverId").getAsString());
-                driver.setName(driverObject.get("givenName").getAsString() + " " +
-                        driverObject.get("familyName").getAsString());
+                driver.setDriverId((driverObject.get("driverId").getAsString()));
+                driver.setFamilyName(((driverObject.get("givenName").getAsString() + " " +
+                        driverObject.get("familyName").getAsString())));
                 driver.setPoints(driverStanding.getAsJsonObject().get("points").getAsInt());
-                driver.setRanking(driverStanding.getAsJsonObject().get("position").getAsInt());
+                driver.setPosition((driverStanding.getAsJsonObject().get("position").getAsInt()));
+                driver.setNationality(driverObject.get("nationality").getAsString());
                 driverList.add(driver);
             }
         }
         return driverList;
+    }
+
+    @Override
+    public void onDriverClick(Driver driver) {
+        DriverInfosFragment detailFragment = new DriverInfosFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("driver", driver);
+        detailFragment.setArguments(bundle);
+
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, detailFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
