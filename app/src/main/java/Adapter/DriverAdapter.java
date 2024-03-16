@@ -1,5 +1,6 @@
 package Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,10 +39,11 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverView
         return new DriverViewHolder(itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull DriverViewHolder holder, int position) {
         Driver currentDriver = DriverList.get(position);
-        holder.tvNom.setText(currentDriver.getFamilyName());
+        holder.tvNom.setText(currentDriver.getGivenName() + " " + currentDriver.getFamilyName());
         holder.tvPoints.setText(String.valueOf(currentDriver.getPoints()));
         holder.tvPosition.setText(String.valueOf(currentDriver.getPosition()));
 

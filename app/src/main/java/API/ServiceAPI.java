@@ -6,7 +6,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import Classes.Driver;
 import okhttp3.OkHttpClient;
@@ -17,7 +19,7 @@ public class ServiceAPI {
 
     private final OkHttpClient httpClient = new OkHttpClient();
     private final String URL = "https://ergast.com/api/f1";
-    private final String DRIVERS_PHOTO_URL = "https://api.openf1.org/v1/drivers";
+    private final String DRIVERS_PHOTO_URL = "https://api.openf1.org/v1/drivers?session_key=9466";
 
     // Page classement et prédiction
     public String getDrivers() throws IOException {
