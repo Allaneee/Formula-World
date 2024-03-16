@@ -22,7 +22,8 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverView
     private List<Driver> DriverList;
     private LayoutInflater inflater;
     private Context context;
-    // Constructeur de l'adaptateur
+    private DriverClickListener clickListener;
+
     public DriverAdapter(Context context, List<Driver> driverList) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
@@ -33,20 +34,26 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverView
     @NonNull
     @Override
     public DriverViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = inflater.inflate(R.layout.driver_item, parent, false);
+        View itemView = inflater.inflate(R.layout.item_driver_ranking, parent, false);
         return new DriverViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull DriverViewHolder holder, int position) {
         Driver currentDriver = DriverList.get(position);
-        holder.tvNom.setText(currentDriver.getName());
+        holder.tvNom.setText(currentDriver.getFamilyName());
         holder.tvPoints.setText(String.valueOf(currentDriver.getPoints()));
-        holder.tvPosition.setText(String.valueOf(currentDriver.getRanking()));
+        holder.tvPosition.setText(String.valueOf(currentDriver.getPosition()));
+
+        holder.itemView.setOnClickListener(v -> {
+            if (clickListener != null) {
+                clickListener.onDriverClick(currentDriver);
+            }
+        });
 
         // Utilisation de Glide pour charger l'image du pilote à partir de l'URL
         Glide.with(holder.itemView.getContext())
-                .load(currentDriver.getPicURL()) // Assurez-vous que Driver a une méthode getPhotoUrl() retournant l'URL correcte
+                .load(currentDriver.getUrl()) // Assurez-vous que Driver a une méthode getPhotoUrl() retournant l'URL correcte
                 .placeholder(R.drawable.ic_driver_default) // Une image par défaut en attendant le chargement de l'image
                 .into(holder.ivPhotoDriver);
     }
@@ -76,6 +83,14 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverView
     }
     @Override
     public long getItemId(int position) {
-        return DriverList.get(position).getId().hashCode();
+        return DriverList.get(position).getDriverId().hashCode();
+    }
+
+    public interface DriverClickListener {
+        void onDriverClick(Driver driver);
+    }
+
+    public void setDriverClickListener(DriverClickListener clickListener) {
+        this.clickListener = clickListener;
     }
 }

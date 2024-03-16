@@ -30,7 +30,7 @@ public class DriverInfoAdapter extends RecyclerView.Adapter<DriverInfoAdapter.Dr
     @Override
     public DriverViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d("test," , "test");
-        View view = LayoutInflater.from(context).inflate(R.layout.item_driver, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_driver_bet, parent, false);
         return new DriverViewHolder(view);
     }
 

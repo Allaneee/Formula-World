@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.formula_world.R;
 
 import API.ServiceAPI;
+import Classes.Driver;
 import Classes.Team;
 import Adapter.TeamAdapter;
 
@@ -26,7 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamFragment extends Fragment {
+public class TeamFragment extends Fragment implements TeamAdapter.TeamClickListener {
 
     private RecyclerView recyclerView;
     private TeamAdapter teamAdapter;
@@ -38,7 +39,6 @@ public class TeamFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_team, container, false);
 
         recyclerView = view.findViewById(R.id.rvTeam);
@@ -48,6 +48,7 @@ public class TeamFragment extends Fragment {
 
         serviceAPI = new ServiceAPI();
         fetchTeamData();
+        teamAdapter.setTeamClickListener(this);
 
         return view;
     }
@@ -87,11 +88,25 @@ public class TeamFragment extends Fragment {
                         team.setname(teamObject.get("name").getAsString());
                         team.setPoints(Integer.parseInt(teamStanding.getAsJsonObject().get("points").getAsString()));
                         team.setranking(Integer.parseInt(teamStanding.getAsJsonObject().get("position").getAsString()));
+                        team.setNationality(teamObject.get("nationality").getAsString());
+                        team.setWins(Integer.parseInt(teamStanding.getAsJsonObject().get("wins").getAsString()));
                         teamList.add(team);
                     }
                 }
             }
         }
         return teamList;
+    }
+    @Override
+    public void onTeamClick(Team team) {
+        TeamInfosFragment detailFragment = new TeamInfosFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Team", team);
+        detailFragment.setArguments(bundle);
+
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, detailFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
