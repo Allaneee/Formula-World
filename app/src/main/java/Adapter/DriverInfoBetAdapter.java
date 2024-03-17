@@ -1,5 +1,6 @@
 package Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,14 +14,14 @@ import com.example.formula_world.R;
 
 import java.util.List;
 
-import Classes.DriverInfo;
+import Classes.Driver;
 
-public class DriverInfoAdapter extends RecyclerView.Adapter<DriverInfoAdapter.DriverViewHolder> {
+public class DriverInfoBetAdapter extends RecyclerView.Adapter<DriverInfoBetAdapter.DriverViewHolder> {
 
     private final Context context;
-    private final List<DriverInfo> driverList;
+    private final List<Driver> driverList;
 
-    public DriverInfoAdapter(Context context, List<DriverInfo> driverList) {
+    public DriverInfoBetAdapter(Context context, List<Driver> driverList) {
         this.context = context;
         Log.d("driverlist", String.valueOf(driverList.size()));
         this.driverList = driverList;
@@ -36,7 +37,7 @@ public class DriverInfoAdapter extends RecyclerView.Adapter<DriverInfoAdapter.Dr
 
     @Override
     public void onBindViewHolder(@NonNull DriverViewHolder holder, int position) {
-        DriverInfo driver = driverList.get(position);
+        Driver driver = driverList.get(position);
         holder.bind(driver);
     }
 
@@ -55,7 +56,8 @@ public class DriverInfoAdapter extends RecyclerView.Adapter<DriverInfoAdapter.Dr
             driverNationalityTextView = itemView.findViewById(R.id.textViewDriverNationality);
         }
 
-        public void bind(DriverInfo driver) {
+        @SuppressLint("SetTextI18n")
+        public void bind(Driver driver) {
             Log.d("test driver", driver.toString());
             driverNameTextView.setText(driver.getGivenName() + " " + driver.getFamilyName());
             driverNationalityTextView.setText(driver.getNationality());

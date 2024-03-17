@@ -17,14 +17,14 @@ import java.util.List;
 import Classes.Team;
 import Fragments.TeamFragment;
 
-public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder> {
+public class TeamRankAdapter extends RecyclerView.Adapter<TeamRankAdapter.TeamViewHolder> {
 
     private List<Team> teamList;
     private LayoutInflater inflater;
     private Context context;
     private TeamClickListener clickListener;
 
-    public TeamAdapter(List<Team> teamList, Context context) {
+    public TeamRankAdapter(List<Team> teamList, Context context) {
         this.teamList = teamList;
         this.inflater = LayoutInflater.from(context);
         this.context = context;
