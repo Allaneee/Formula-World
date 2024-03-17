@@ -2,7 +2,6 @@ package Fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.formula_world.R;
 
 import API.ServiceAPI;
-import Classes.Driver;
 import Classes.Team;
-import Adapter.TeamAdapter;
+import Adapter.TeamRankAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -27,10 +25,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamFragment extends Fragment implements TeamAdapter.TeamClickListener {
+public class TeamFragment extends Fragment implements TeamRankAdapter.TeamClickListener {
 
     private RecyclerView recyclerView;
-    private TeamAdapter teamAdapter;
+    private TeamRankAdapter teamAdapter;
     private ServiceAPI serviceAPI;
 
     public TeamFragment() {    }
@@ -43,7 +41,7 @@ public class TeamFragment extends Fragment implements TeamAdapter.TeamClickListe
 
         recyclerView = view.findViewById(R.id.rvTeam);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        teamAdapter = new TeamAdapter(new ArrayList<>(), requireContext());
+        teamAdapter = new TeamRankAdapter(new ArrayList<>(), requireContext());
         recyclerView.setAdapter(teamAdapter);
 
         serviceAPI = new ServiceAPI();

@@ -53,7 +53,6 @@ public class DriverInfosFragment extends Fragment {
 
             if (driver != null) {
                 tvDriverName.setText(driver.getFamilyName());
-                Log.d("DriverInfo", "Nationality: " + driver.getNationality());
                 tvPosition.setText("Position: " + driver.getPosition());
                 tvWins.setText("Victoire: " + driver.getWins());
                 tvPoints.setText("Points: " + driver.getPoints());

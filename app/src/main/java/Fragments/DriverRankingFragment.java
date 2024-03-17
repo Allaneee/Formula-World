@@ -15,7 +15,7 @@ import com.example.formula_world.R;
 
 import API.ServiceAPI;
 import Classes.Driver;
-import Adapter.DriverAdapter;
+import Adapter.DriverRankAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -27,17 +27,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class DriverRankingFragment extends Fragment implements DriverAdapter.DriverClickListener {
+public class DriverRankingFragment extends Fragment implements DriverRankAdapter.DriverClickListener {
 
     private RecyclerView recyclerView;
-    private DriverAdapter driverAdapter;
+    private DriverRankAdapter driverAdapter;
     private ServiceAPI serviceAPI;
 
     public DriverRankingFragment() {
@@ -50,7 +49,7 @@ public class DriverRankingFragment extends Fragment implements DriverAdapter.Dri
 
         recyclerView = view.findViewById(R.id.rvDriver);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        driverAdapter = new DriverAdapter(requireContext(), new ArrayList<>());
+        driverAdapter = new DriverRankAdapter(requireContext(), new ArrayList<>());
         recyclerView.setAdapter(driverAdapter);
 
         serviceAPI = new ServiceAPI();

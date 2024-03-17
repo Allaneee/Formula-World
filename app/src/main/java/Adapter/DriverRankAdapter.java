@@ -18,14 +18,14 @@ import java.util.List;
 import Classes.Driver;
 
 
-public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverViewHolder> {
+public class DriverRankAdapter extends RecyclerView.Adapter<DriverRankAdapter.DriverViewHolder> {
 
     private List<Driver> DriverList;
     private LayoutInflater inflater;
     private Context context;
     private DriverClickListener clickListener;
 
-    public DriverAdapter(Context context, List<Driver> driverList) {
+    public DriverRankAdapter(Context context, List<Driver> driverList) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.DriverList = driverList;

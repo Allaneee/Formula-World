@@ -2,7 +2,6 @@ package Fragments;
 
 // BettingFragment.java
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import Adapter.DriverAdapter;
-import Adapter.DriverInfoAdapter;
+import Adapter.DriverInfoBetAdapter;
 import Adapter.GrandPrixAdapter;
 import Async.FetchDriverTask;
 import Async.FetchRacesTask;
 import Async.OnDriverFetchedListener;
 import Classes.Driver;
-import Classes.DriverInfo;
 import Classes.GrandPrix.Circuit;
 import Classes.GrandPrix.Location;
 import Classes.GrandPrix.GrandPrix;
@@ -43,21 +40,11 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
 
     private ServiceAPI serviceAPI;
     private RecyclerView recyclerRaceView;
-
-
     private RecyclerView recyclerDriverView;
-
     private GrandPrixAdapter grandPrixAdapter;
 
     public BettingFragment() {
         // Required empty public constructor
-    }
-
-    public static BettingFragment newInstance(String param1, String param2) {
-        BettingFragment fragment = new BettingFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -91,17 +78,17 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
             JsonObject driverTable = jsonObject.getAsJsonObject("MRData").getAsJsonObject("DriverTable");
             JsonElement driversElement = driverTable.get("Drivers");
             if (driversElement != null && driversElement.isJsonArray()) {
-                List<DriverInfo> driverList = new ArrayList<>();
+                List<Driver> driverList = new ArrayList<>();
                 JsonArray driversArray = driversElement.getAsJsonArray();
 
                 for (JsonElement driverElement : driversArray) {
                     JsonObject driverObject = driverElement.getAsJsonObject();
-                    DriverInfo driver = gson.fromJson(driverElement, DriverInfo.class);
+                    Driver driver = gson.fromJson(driverElement, Driver.class);
                     driverList.add(driver);
                 }
 
                 // Initialisez et attachez l'adaptateur au RecyclerView
-                DriverInfoAdapter DriverAdapter = new DriverInfoAdapter(getActivity(), driverList);
+                DriverInfoBetAdapter DriverAdapter = new DriverInfoBetAdapter(getActivity(), driverList);
                 recyclerDriverView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 recyclerDriverView.setAdapter(DriverAdapter);
 
