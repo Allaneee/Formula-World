@@ -1,5 +1,9 @@
 package Async;
 
+import java.util.List;
+
+import Classes.Driver;
+
 public interface OnDriverFetchedListener {
-    void onDriverFetched(String racesJson);
+    List<Driver> onDriverFetched(String racesJson);
 }

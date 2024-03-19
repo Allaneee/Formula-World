@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class BettingFragment extends Fragment implements OnRacesFetchedListener, OnDriverFetchedListener {
+public class BettingFragment extends Fragment implements OnRacesFetchedListener, GrandPrixAdapter.PodiumPlaceClickListener {
 
     private ServiceAPI serviceAPI;
     private RecyclerView recyclerRaceView;
@@ -60,9 +60,6 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_betting, container, false);
-        View viewpopup = inflater.inflate(R.layout.popup_layout, container, false);
-
-        recyclerDriverView = viewpopup.findViewById(R.id.recyclerViewPilotes);
 
         recyclerRaceView = view.findViewById(R.id.recyclerViewBetting);
         recyclerRaceView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -70,30 +67,6 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
         return view;
     }
 
-
-        @Override
-        public void onDriverFetched(String driverJson) {
-            Gson gson = new Gson();
-            JsonObject jsonObject = gson.fromJson(driverJson, JsonObject.class);
-            JsonObject driverTable = jsonObject.getAsJsonObject("MRData").getAsJsonObject("DriverTable");
-            JsonElement driversElement = driverTable.get("Drivers");
-            if (driversElement != null && driversElement.isJsonArray()) {
-                List<Driver> driverList = new ArrayList<>();
-                JsonArray driversArray = driversElement.getAsJsonArray();
-
-                for (JsonElement driverElement : driversArray) {
-                    JsonObject driverObject = driverElement.getAsJsonObject();
-                    Driver driver = gson.fromJson(driverElement, Driver.class);
-                    driverList.add(driver);
-                }
-
-                // Initialisez et attachez l'adaptateur au RecyclerView
-                DriverInfoBetAdapter DriverAdapter = new DriverInfoBetAdapter(getActivity(), driverList);
-                recyclerDriverView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                recyclerDriverView.setAdapter(DriverAdapter);
-
-            }
-            }
     @Override
     public void onRacesFetched(String grandPrixJson) {
         Gson gson = new Gson();
@@ -135,7 +108,7 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
             }
 
             // Initialisez et attachez l'adaptateur au RecyclerView
-            grandPrixAdapter = new GrandPrixAdapter(getActivity(),grandPrixList);
+            grandPrixAdapter = new GrandPrixAdapter(getActivity(),grandPrixList, this);
             recyclerRaceView.setAdapter(grandPrixAdapter);
 
 
@@ -148,7 +121,6 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
     private void fetchGrandPrix() {
         // Exécutez la tâche asynchrone pour récupérer les données des Grands Prix depuis l'API
         new FetchRacesTask(serviceAPI, this).execute();
-        new FetchDriverTask(serviceAPI, this).execute();
 
     }
 
@@ -187,6 +159,17 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
         return 0;
     }
 
+    @Override
+    public void onPodiumPlaceClicked(int position, int podiumPlace) {
+        showDriverSelectionFragment(podiumPlace);
+    }
 
+    private void showDriverSelectionFragment(int podiumPlace) {
+        DriverSelectionBetFragment fragment = DriverSelectionBetFragment.newInstance(podiumPlace);
 
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment) // Assurez-vous que 'R.id.container' est le conteneur correct pour remplacer le fragment
+                .addToBackStack(null)
+                .commit();
+    }
 }
