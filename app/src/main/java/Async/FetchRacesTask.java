@@ -18,7 +18,7 @@ public class FetchRacesTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... voids) {
         try {
-            return serviceAPI.getRaces();
+            return serviceAPI.getRaceResult();
         } catch (IOException e) {
             e.printStackTrace();
             return null;

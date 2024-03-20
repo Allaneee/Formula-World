@@ -1,8 +1,6 @@
 package Adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,23 +20,29 @@ public class DriverInfoBetAdapter extends RecyclerView.Adapter<DriverInfoBetAdap
 
     private final Context context;
     private final List<Driver> driverList;
+    private final OnDriverClickListener clickListener;
 
-    public DriverInfoBetAdapter(Context context, List<Driver> driverList) {
+    public DriverInfoBetAdapter(Context context, List<Driver> driverList, OnDriverClickListener listener) {
         this.context = context;
         this.driverList = driverList;
+        this.clickListener = listener;
     }
 
     @NonNull
     @Override
     public DriverViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_driver_bet, parent, false);
-        return new DriverViewHolder(view);
+        return new DriverViewHolder(view, clickListener); // Passer clickListener ici
     }
 
     @Override
     public void onBindViewHolder(@NonNull DriverViewHolder holder, int position) {
         Driver driver = driverList.get(position);
         holder.bind(driver);
+
+
+        holder.itemView.setOnClickListener(v -> { clickListener.onDriverClicked(driver);          });
+
     }
 
     @Override
@@ -46,23 +50,30 @@ public class DriverInfoBetAdapter extends RecyclerView.Adapter<DriverInfoBetAdap
         return driverList.size();
     }
 
-    static class DriverViewHolder extends RecyclerView.ViewHolder {
-        private final TextView driverNameTextView;
-        private final ImageView driverPhotoUrl;
+    public interface OnDriverClickListener {
+        void onDriverClicked(Driver driver);
+    }
 
-        public DriverViewHolder(@NonNull View itemView) {
+    class DriverViewHolder extends RecyclerView.ViewHolder {
+        private final TextView driverNameTextView;
+        private final ImageView driverPhotoImageView;
+
+        DriverViewHolder(View itemView, OnDriverClickListener listener) { // Correction ici
             super(itemView);
             driverNameTextView = itemView.findViewById(R.id.tvDriverName);
-            driverPhotoUrl = itemView.findViewById(R.id.ivDriverPhoto);
+            driverPhotoImageView = itemView.findViewById(R.id.ivDriverPhoto);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onDriverClicked(driverList.get(position)); // Utilisation correcte du listener
+                }
+            });
         }
 
-        @SuppressLint("SetTextI18n")
-        public void bind(Driver driver) {
-            Log.d("test driver", driver.toString());
+        void bind(Driver driver) {
             driverNameTextView.setText(driver.getFullName());
-            Glide.with(itemView.getContext()).load(driver.getUrl()).into(driverPhotoUrl); // Charger l'image à partir de l'URL
-
+            Glide.with(itemView.getContext()).load(driver.getUrl()).into(driverPhotoImageView);
         }
     }
 }
-

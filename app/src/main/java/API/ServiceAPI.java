@@ -52,8 +52,8 @@ public class ServiceAPI {
     }
 
     // Pour les prédictions
-    public String getRaceResult(int raceId) throws IOException {
-        String url = URL + "/2024/" + raceId + "/results.json";
+    public String getRaceResult() throws IOException {
+        String url = URL + "/current/2024.json";
         return getJson(url);
     }
 

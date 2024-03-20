@@ -6,15 +6,14 @@ import java.io.IOException;
 
 import API.ServiceAPI;
 
-public class DriverDataFetcher extends AsyncTask<Void, Void, String> {
+public class FetchResultTask extends AsyncTask<Void, Void, String> {
     private final ServiceAPI serviceAPI;
-    private final OnDriverFetchedListener listener;
+    private final OnRacesFetchedListener listener;
 
-    public DriverDataFetcher(ServiceAPI serviceAPI, OnDriverFetchedListener listener) {
+    public FetchResultTask(ServiceAPI serviceAPI, OnRacesFetchedListener listener) {
         this.serviceAPI = serviceAPI;
         this.listener = listener;
     }
-
 
     @Override
     protected String doInBackground(Void... voids) {
@@ -29,7 +28,7 @@ public class DriverDataFetcher extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         if (listener != null) {
-            listener.onDriverFetched(result);
+            listener.onRacesFetched(result);
         }
     }
 }

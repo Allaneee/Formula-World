@@ -1,5 +1,6 @@
 package Fragments;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,11 +18,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 import Adapter.DriverInfoBetAdapter;
 import API.ServiceAPI;
@@ -34,13 +37,15 @@ public class DriverSelectionBetFragment extends Fragment {
     private RecyclerView recyclerViewDrivers;
     private DriverInfoBetAdapter driverAdapter;
     private ServiceAPI serviceAPI = new ServiceAPI();
-    private int podiumPlace; // Variable pour stocker la place du podium
+    private int podiumPlace;
+    private String grandPrixName;
 
     // Méthode statique pour créer une nouvelle instance du fragment avec un argument (place du podium)
-    public static DriverSelectionBetFragment newInstance(int podiumPlace) {
+    public static DriverSelectionBetFragment newInstance(int podiumPlace, String grandPrixName) {
         DriverSelectionBetFragment fragment = new DriverSelectionBetFragment();
         Bundle args = new Bundle();
-        args.putInt("PODIUM_PLACE", podiumPlace); // Passer la place du podium comme argument
+        args.putInt("PODIUM_PLACE", podiumPlace);
+        args.putString("GRAND_PRIX_NAME", grandPrixName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,6 +55,7 @@ public class DriverSelectionBetFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             podiumPlace = getArguments().getInt("PODIUM_PLACE");
+            grandPrixName = getArguments().getString("GRAND_PRIX_NAME");
         }
     }
 
@@ -92,10 +98,86 @@ public class DriverSelectionBetFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Driver> drivers) {
             super.onPostExecute(drivers);
-            // Met à jour le RecyclerView avec la liste filtrée des pilotes
-            driverAdapter = new DriverInfoBetAdapter(getContext(), drivers);
+            // Initialisation et configuration de l'adapter
+            driverAdapter = new DriverInfoBetAdapter(getContext(), drivers, this::onDriverClicked);
             recyclerViewDrivers.setAdapter(driverAdapter);
+        }
+
+        private void onDriverClicked(Driver driver) {
+            saveDriverInfoToJsonFile(driver);
+
+            // Code pour naviguer de retour au BettingFragment
+            // Assurez-vous d'avoir un container id correct dans le replace
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, BettingFragment.newInstance())
+                    .addToBackStack(null) // Optionnel, si vous souhaitez ajouter la transaction à la pile arrière
+                    .commit();
+        }
+
+    }
+
+    private void saveDriverInfoToJsonFile(Driver driver) {
+        try {
+            String filename = "driver_selections.json";
+            JSONArray savedData;
+
+            //resetDriverSelectionsFile();
+            try (FileInputStream fis = getContext().openFileInput(filename)) {
+                StringBuilder sb = new StringBuilder();
+                int character;
+                while ((character = fis.read()) != -1) {
+                    sb.append((char) character);
+                }
+                savedData = new JSONArray(sb.toString());
+            } catch (FileNotFoundException e) {
+                savedData = new JSONArray();
+            }
+
+            boolean found = false;
+            for (int i = 0; i < savedData.length(); i++) {
+                JSONObject selection = savedData.getJSONObject(i);
+                if (selection.getString("grand_prix_id").equals(grandPrixName) && selection.getInt("podium_place") == podiumPlace) {
+                    // Mise à jour de l'entrée existante
+                    selection.put("full_name", driver.getFullName());
+                    selection.put("url", driver.getUrl());
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                // Création d'un nouvel objet JSON pour la sélection du pilote et ajout au JSONArray
+                JSONObject driverInfo = new JSONObject();
+                driverInfo.put("full_name", driver.getFullName());
+                driverInfo.put("url", driver.getUrl());
+                driverInfo.put("podium_place", podiumPlace);
+                driverInfo.put("grand_prix_id", grandPrixName);
+                Log.d("Save", String.valueOf(driverInfo));
+                savedData.put(driverInfo);
+            }
+
+            // Sauvegarde du JSONArray mis à jour dans le fichier
+            try (FileOutputStream fos = getContext().openFileOutput(filename, Context.MODE_PRIVATE)) {
+                fos.write(savedData.toString().getBytes());
+            }
+
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
         }
     }
 
+
+    private void resetDriverSelectionsFile() {
+        String filename = "driver_selections.json";
+        try (FileOutputStream fos = getContext().openFileOutput(filename, Context.MODE_PRIVATE)) {
+            // Structure JSON de base que vous souhaitez utiliser pour initialiser le fichier
+            String initialContent = "[]"; // Pour un objet JSON vide
+            // String initialContent = "[]"; // Pour un tableau JSON vide
+            // Ou initialisez avec une structure plus complexe si nécessaire
+            fos.write(initialContent.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
