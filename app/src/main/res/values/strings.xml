@@ -34,4 +34,6 @@
     <string name="Monegasque">Monégasque</string>
     <string name="Swedish">Suédois</string>
     <string name="Austrian">Autrichien</string>
+    <string name="valider">Valider</string>
+    <string name="modifier">Modifier</string>
 </resources>
