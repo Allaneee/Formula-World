@@ -69,7 +69,6 @@ public class GrandPrixAdapter extends RecyclerView.Adapter<GrandPrixAdapter.Gran
 
     static class GrandPrixViewHolder extends RecyclerView.ViewHolder {
         private final TextView grandPrixNameTextView;
-        private final TextView grandPrixLocationTextView;
         private final TextView grandPrixDateTextView;
         private final ImageView podiumFirstImageView;
         private final ImageView podiumSecondImageView;
@@ -82,7 +81,6 @@ public class GrandPrixAdapter extends RecyclerView.Adapter<GrandPrixAdapter.Gran
         public GrandPrixViewHolder(@NonNull View itemView) {
             super(itemView);
             grandPrixNameTextView = itemView.findViewById(R.id.textViewGrandPrixName);
-            grandPrixLocationTextView = itemView.findViewById(R.id.textViewGrandPrixLocation);
             grandPrixDateTextView = itemView.findViewById(R.id.textViewGrandPrixDate);
             podiumFirstImageView = itemView.findViewById(R.id.podiumFirst);
             podiumSecondImageView = itemView.findViewById(R.id.podiumSecond);
@@ -95,9 +93,11 @@ public class GrandPrixAdapter extends RecyclerView.Adapter<GrandPrixAdapter.Gran
 
         public void bind(GrandPrix grandPrix) {
             grandPrixNameTextView.setText(grandPrix.getRaceName());
-            grandPrixLocationTextView.setText(grandPrix.getCircuit().getCircuitName());
             grandPrixDateTextView.setText(grandPrix.getDate());
 
+            resultFirstImageView.setImageResource(R.drawable.baseline_question_mark_24);
+            resultSecondImageView.setImageResource(R.drawable.baseline_question_mark_24);
+            resultThirdImageView.setImageResource(R.drawable.baseline_question_mark_24);
             // Utilisation des sélections de pilotes pour charger les images dans les ImageView
             List<Driver> selections = driverSelections.get(grandPrix.getRaceName());
             if (selections != null) {
