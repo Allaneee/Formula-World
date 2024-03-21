@@ -2,7 +2,7 @@
     <string name="app_name">Formula-World</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="globe">Course</string>
-    <string name="ranking">Position</string>
+    <string name="ranking">Classements</string>
     <string name="map_description">Description de la carte</string>
 
     <string name="betting">Draft</string>
