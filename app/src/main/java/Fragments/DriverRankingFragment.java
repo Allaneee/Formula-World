@@ -63,11 +63,9 @@ public class DriverRankingFragment extends Fragment implements DriverRankAdapter
     private void fetchDriverDataAndPhotos() {
         new Thread(() -> {
             try {
-                // Récupère le classement des pilotes
                 String driverJson = serviceAPI.getCurrentRankings();
                 List<Driver> drivers = parseDriverJson(driverJson);
 
-                // Récupère les URLs des photos des pilotes
                 String photosJson = serviceAPI.getDriversPhotos();
                 Map<String, String> photosMap = new HashMap<>();
                 parsePhotosJson(photosJson, photosMap);
@@ -77,7 +75,6 @@ public class DriverRankingFragment extends Fragment implements DriverRankAdapter
                     String photoUrl = photosMap.get(normalizedLastName);
                     driver.setUrl(photoUrl);
                 }
-                // Met à jour l'UI sur le thread principal
                 requireActivity().runOnUiThread(() -> {
                     driverAdapter.setDrivers(drivers);
                     driverAdapter.notifyDataSetChanged();
@@ -130,7 +127,6 @@ public class DriverRankingFragment extends Fragment implements DriverRankAdapter
             JSONObject photoObject = photosArray.getJSONObject(i);
             String lastName = photoObject.getString("last_name");
             lastName = normalizeName(lastName);
-            Log.d("NOM DE FAMILLE NORMALISE2: ", lastName);
             String photoUrl = photoObject.getString("headshot_url");
             photosMap.put(lastName, photoUrl);
         }
@@ -152,7 +148,6 @@ public class DriverRankingFragment extends Fragment implements DriverRankAdapter
         if (name == null) {
             return "";
         }
-        // Convertit en minuscules, retire les espaces de début et de fin, et supprime les caractères spéciaux.
         return name.trim().toLowerCase().replaceAll("[^a-z0-9]", "");
     }
 

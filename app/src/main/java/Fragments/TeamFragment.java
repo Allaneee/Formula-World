@@ -27,7 +27,6 @@ import java.util.List;
 
 public class TeamFragment extends Fragment implements TeamRankAdapter.TeamClickListener {
 
-    private RecyclerView recyclerView;
     private TeamRankAdapter teamAdapter;
     private ServiceAPI serviceAPI;
 
@@ -39,7 +38,7 @@ public class TeamFragment extends Fragment implements TeamRankAdapter.TeamClickL
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_team, container, false);
 
-        recyclerView = view.findViewById(R.id.rvTeam);
+        RecyclerView recyclerView = view.findViewById(R.id.rvTeam);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         teamAdapter = new TeamRankAdapter(new ArrayList<>(), requireContext());
         recyclerView.setAdapter(teamAdapter);

@@ -40,7 +40,6 @@ public class DriverSelectionBetFragment extends Fragment {
     private int podiumPlace;
     private String grandPrixName;
 
-    // Méthode statique pour créer une nouvelle instance du fragment avec un argument (place du podium)
     public static DriverSelectionBetFragment newInstance(int podiumPlace, String grandPrixName) {
         DriverSelectionBetFragment fragment = new DriverSelectionBetFragment();
         Bundle args = new Bundle();
@@ -79,8 +78,7 @@ public class DriverSelectionBetFragment extends Fragment {
             try {
                 String jsonResponse = serviceAPI.getDriversPhotos();
                 JSONArray jsonArray = new JSONArray(jsonResponse);
-                // On parcourt le JSONArray en commençant par le premier élément
-                for (int i = 1; i < jsonArray.length(); i += 2) { // i += 2 pour sauter un élément sur deux
+                for (int i = 1; i < jsonArray.length(); i += 2) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     Driver driver = new Driver();
                     driver.setFullName(jsonObject.optString("full_name"));
@@ -98,7 +96,7 @@ public class DriverSelectionBetFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Driver> drivers) {
             super.onPostExecute(drivers);
-            // Initialisation et configuration de l'adapter
+
             driverAdapter = new DriverInfoBetAdapter(getContext(), drivers, this::onDriverClicked);
             recyclerViewDrivers.setAdapter(driverAdapter);
         }
@@ -106,11 +104,9 @@ public class DriverSelectionBetFragment extends Fragment {
         private void onDriverClicked(Driver driver) {
             saveDriverInfoToJsonFile(driver);
 
-            // Code pour naviguer de retour au BettingFragment
-            // Assurez-vous d'avoir un container id correct dans le replace
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, BettingFragment.newInstance())
-                    .addToBackStack(null) // Optionnel, si vous souhaitez ajouter la transaction à la pile arrière
+                    .addToBackStack(null)
                     .commit();
         }
 
@@ -121,7 +117,6 @@ public class DriverSelectionBetFragment extends Fragment {
             String filename = "driver_selections.json";
             JSONArray savedData;
 
-            //resetDriverSelectionsFile();
             try (FileInputStream fis = getContext().openFileInput(filename)) {
                 StringBuilder sb = new StringBuilder();
                 int character;
@@ -137,7 +132,6 @@ public class DriverSelectionBetFragment extends Fragment {
             for (int i = 0; i < savedData.length(); i++) {
                 JSONObject selection = savedData.getJSONObject(i);
                 if (selection.getString("grand_prix_id").equals(grandPrixName) && selection.getInt("podium_place") == podiumPlace) {
-                    // Mise à jour de l'entrée existante
                     selection.put("full_name", driver.getFullName());
                     selection.put("url", driver.getUrl());
                     found = true;
@@ -146,17 +140,14 @@ public class DriverSelectionBetFragment extends Fragment {
             }
 
             if (!found) {
-                // Création d'un nouvel objet JSON pour la sélection du pilote et ajout au JSONArray
                 JSONObject driverInfo = new JSONObject();
                 driverInfo.put("full_name", driver.getFullName());
                 driverInfo.put("url", driver.getUrl());
                 driverInfo.put("podium_place", podiumPlace);
                 driverInfo.put("grand_prix_id", grandPrixName);
-                Log.d("Save", String.valueOf(driverInfo));
                 savedData.put(driverInfo);
             }
 
-            // Sauvegarde du JSONArray mis à jour dans le fichier
             try (FileOutputStream fos = getContext().openFileOutput(filename, Context.MODE_PRIVATE)) {
                 fos.write(savedData.toString().getBytes());
             }
@@ -170,10 +161,7 @@ public class DriverSelectionBetFragment extends Fragment {
     private void resetDriverSelectionsFile() {
         String filename = "driver_selections.json";
         try (FileOutputStream fos = getContext().openFileOutput(filename, Context.MODE_PRIVATE)) {
-            // Structure JSON de base que vous souhaitez utiliser pour initialiser le fichier
-            String initialContent = "[]"; // Pour un objet JSON vide
-            // String initialContent = "[]"; // Pour un tableau JSON vide
-            // Ou initialisez avec une structure plus complexe si nécessaire
+            String initialContent = "[]";
             fos.write(initialContent.getBytes());
         } catch (IOException e) {
             e.printStackTrace();

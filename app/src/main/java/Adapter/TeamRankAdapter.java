@@ -21,14 +21,12 @@ import Fragments.TeamFragment;
 public class TeamRankAdapter extends RecyclerView.Adapter<TeamRankAdapter.TeamViewHolder> {
 
     private List<Team> teamList;
-    private LayoutInflater inflater;
-    private Context context;
+    private final LayoutInflater inflater;
     private TeamClickListener clickListener;
 
     public TeamRankAdapter(List<Team> teamList, Context context) {
         this.teamList = teamList;
         this.inflater = LayoutInflater.from(context);
-        this.context = context;
     }
 
     @NonNull
@@ -38,18 +36,19 @@ public class TeamRankAdapter extends RecyclerView.Adapter<TeamRankAdapter.TeamVi
         return new TeamViewHolder(itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull TeamViewHolder holder, int position) {
         Team currentTeam = teamList.get(position);
         holder.tvName.setText(currentTeam.getname());
-        holder.tvPoints.setText(String.valueOf(currentTeam.getPoints()+ " points"));
+        holder.tvPoints.setText(currentTeam.getPoints() + " points");
         holder.tvRanking.setText(String.format(String.valueOf(currentTeam.getranking())));
         
-        holder.itemView.setOnClickListener(v -> {
+        /*holder.itemView.setOnClickListener(v -> {
             if (clickListener != null){
                 clickListener.onTeamClick(currentTeam);
             }
-        });
+        });*/
 
         switch (currentTeam.getname()) {
             case "Ferrari":

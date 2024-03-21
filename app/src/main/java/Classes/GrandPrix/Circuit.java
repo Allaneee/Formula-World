@@ -1,16 +1,10 @@
 package Classes.GrandPrix;
 
-
-import com.google.gson.JsonDeserializer;
-
-
 public class Circuit {
     private String circuitId;
     private String url;
     private String circuitName;
     private Location location;
-
-    // Constructeur, getters et setters
 
     public Circuit(String circuitId, String url, String circuitName, Location location) {
         this.circuitId = circuitId;

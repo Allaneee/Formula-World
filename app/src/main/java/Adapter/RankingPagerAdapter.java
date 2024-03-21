@@ -10,32 +10,31 @@ import Fragments.TeamFragment;
 
 public class RankingPagerAdapter extends FragmentPagerAdapter {
 
-    private static final int NUM_ITEMS = 2; // Nombre total de pages
+    private static final int NUM_ITEMS = 2;
 
     public RankingPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
-    // Retourne le fragment associé à une position spécifique.
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0: // Fragment #0 - Cela affichera le classement des pilotes
+            case 0:
                 return new DriverRankingFragment();
-            case 1: // Fragment #1 - Cela affichera le classement des constructeurs
+            case 1:
                 return new TeamFragment();
             default:
-                return null; // Ne devrait jamais arriver
+                return null;
         }
     }
 
-    // Retourne le nombre de pages
+
     @Override
     public int getCount() {
         return NUM_ITEMS;
     }
 
-    // Peut être utilisé pour définir le titre de chaque page
+
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {

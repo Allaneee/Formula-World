@@ -3,11 +3,10 @@ package Classes;
 import java.io.Serializable;
 
 public class Driver implements Serializable {
-    private String driverId; // Correspond à "driverId" dans le JSON
-    private int permanentNumber, points, position; // position correspond à "position" dans le JSON
-    private String code, givenName, familyName, dateOfBirth, nationality, url, fullName; // Ajout de l'URL
+    private String driverId;
+    private int permanentNumber, points, position;
+    private String code, givenName, familyName, dateOfBirth, nationality, url, fullName;
     private int wins;
-    private Team[] constructors; // Correspond aux "Constructors" dans le JSON, supposez que Team est correctement défini
 
     // Constructeur par défaut
     public Driver() {
@@ -60,8 +59,6 @@ public class Driver implements Serializable {
         this.fullName = fullName;
     }
 
-    public Team[] getConstructors() { return constructors; }
-    public void setConstructors(Team[] constructors) { this.constructors = constructors; }
 
     @Override
     public String toString() {

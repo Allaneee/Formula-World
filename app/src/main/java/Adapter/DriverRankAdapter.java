@@ -21,12 +21,10 @@ import Classes.Driver;
 public class DriverRankAdapter extends RecyclerView.Adapter<DriverRankAdapter.DriverViewHolder> {
 
     private List<Driver> DriverList;
-    private LayoutInflater inflater;
-    private Context context;
+    private final LayoutInflater inflater;
     private DriverClickListener clickListener;
 
     public DriverRankAdapter(Context context, List<Driver> driverList) {
-        this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.DriverList = driverList;
         setHasStableIds(true);
@@ -44,14 +42,15 @@ public class DriverRankAdapter extends RecyclerView.Adapter<DriverRankAdapter.Dr
     public void onBindViewHolder(@NonNull DriverViewHolder holder, int position) {
         Driver currentDriver = DriverList.get(position);
         holder.tvNom.setText(currentDriver.getGivenName() + " " + currentDriver.getFamilyName());
-        holder.tvPoints.setText(String.valueOf(currentDriver.getPoints()) + " points");
+        holder.tvPoints.setText(currentDriver.getPoints() + " points");
         holder.tvPosition.setText(String.valueOf(currentDriver.getPosition()));
 
-        holder.itemView.setOnClickListener(v -> {
+        /*holder.itemView.setOnClickListener(v -> {
             if (clickListener != null) {
                 clickListener.onDriverClick(currentDriver);
             }
-        });
+        });*/
+
         switch (currentDriver.getFamilyName()) {
             case "Verstappen":
                 holder.itemView.setBackgroundResource(R.drawable.verstappen);
@@ -116,7 +115,7 @@ public class DriverRankAdapter extends RecyclerView.Adapter<DriverRankAdapter.Dr
             case "Gasly":
                 holder.itemView.setBackgroundResource(R.drawable.gasly);
                 break;
-            // Ajoutez d'autres cas selon vos besoins pour d'autres pilotes
+
             default:
                 holder.itemView.setBackgroundResource(R.drawable.verstappen);
                 break;
@@ -129,12 +128,10 @@ public class DriverRankAdapter extends RecyclerView.Adapter<DriverRankAdapter.Dr
         return DriverList.size();
     }
 
-    // ViewHolder pour les éléments de la liste
     static class DriverViewHolder extends RecyclerView.ViewHolder {
         TextView tvNom;
         TextView tvPoints;
         TextView tvPosition;
-        ImageView ivPhotoDriver;
 
         DriverViewHolder(View itemView) {
             super(itemView);

@@ -32,7 +32,7 @@ public class DriverInfoBetAdapter extends RecyclerView.Adapter<DriverInfoBetAdap
     @Override
     public DriverViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_driver_bet, parent, false);
-        return new DriverViewHolder(view, clickListener); // Passer clickListener ici
+        return new DriverViewHolder(view, clickListener);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class DriverInfoBetAdapter extends RecyclerView.Adapter<DriverInfoBetAdap
         private final TextView driverNameTextView;
         private final ImageView driverPhotoImageView;
 
-        DriverViewHolder(View itemView, OnDriverClickListener listener) { // Correction ici
+        DriverViewHolder(View itemView, OnDriverClickListener listener) {
             super(itemView);
             driverNameTextView = itemView.findViewById(R.id.tvDriverName);
             driverPhotoImageView = itemView.findViewById(R.id.ivDriverPhoto);
@@ -66,7 +66,7 @@ public class DriverInfoBetAdapter extends RecyclerView.Adapter<DriverInfoBetAdap
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    listener.onDriverClicked(driverList.get(position)); // Utilisation correcte du listener
+                    listener.onDriverClicked(driverList.get(position));
                 }
             });
         }
