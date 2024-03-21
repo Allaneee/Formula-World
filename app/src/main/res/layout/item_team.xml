@@ -26,18 +26,22 @@ app:cardCornerRadius="8dp">
     <!-- LinearLayout vertical -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="160dp"
         android:layout_toEndOf="@id/tvTeamRanking"
         android:orientation="vertical"
         android:gravity="end"
-        android:paddingTop="60dp"
+
         android:paddingEnd="10dp"
         android:layout_centerVertical="true"
 
         >
 
-        <!-- TextView pour le nom du pilote -->
-
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="30dp"
+            />
         <!-- TextView pour les points -->
 
         <TextView
@@ -46,7 +50,6 @@ app:cardCornerRadius="8dp">
             android:layout_height="wrap_content"
             android:text="@string/nom_du_pilote"
             android:textColor="@color/white"
-
             android:textSize="18sp" />
 
         <TextView
