@@ -32,11 +32,11 @@ public class RankingFragment extends Fragment {
         rankingPagerAdapter = new RankingPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(rankingPagerAdapter);
 
-        // Mettre à jour les onglets lors du changement de page
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                // Cette méthode peut être laissée vide
+
             }
 
             @Override
@@ -46,15 +46,13 @@ public class RankingFragment extends Fragment {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                // Cette méthode peut être laissée vide
+
             }
         });
 
-        // Configurer les clics sur les onglets pour changer la page du ViewPager
         tvPilotes.setOnClickListener(v -> viewPager.setCurrentItem(0));
         tvConstructeurs.setOnClickListener(v -> viewPager.setCurrentItem(1));
 
-        // Sélection initiale de l'onglet Pilotes
         updateTabSelection(0);
 
         return view;

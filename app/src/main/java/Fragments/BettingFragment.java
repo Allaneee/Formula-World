@@ -1,6 +1,5 @@
 package Fragments;
 
-// BettingFragment.java
 
 import android.content.Context;
 import android.os.Bundle;
@@ -46,7 +45,6 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +55,7 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
     private ServiceAPI serviceAPI;
     private RecyclerView recyclerRaceView;
     private GrandPrixAdapter grandPrixAdapter;
-    private Map<String, List<Driver>> driverDetails = new HashMap<>();
+    private final Map<String, List<Driver>> driverDetails = new HashMap<>();
     private List<Results> listResults;
 
 
@@ -109,7 +107,6 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
                 JsonObject secondObject = raceObject.getAsJsonObject("SecondPractice");
                 JsonObject thirdObject = raceObject.getAsJsonObject("ThirdPractice");
                 JsonObject qualiObject = raceObject.getAsJsonObject("Qualifying");
-                //Log.d("Location", locationObject.toString());
                 Circuit circuit = gson.fromJson(circuitObject, Circuit.class);
 
                 Location location = gson.fromJson(locationObject, Location.class);
@@ -118,10 +115,9 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
                 Practice practice2 = gson.fromJson(secondObject, Practice.class);
                 Practice practice3 = gson.fromJson(thirdObject, Practice.class);
                 Practice quali = gson.fromJson(qualiObject, Practice.class);
-                location.setLongitude(String.valueOf((locationObject.get("long"))));
                 circuit.setLocation(location);
                 circuit.setCircuitId(circuitId);
-                // Créez un objet GrandPrix avec les autres informations nécessaires
+
                 GrandPrix grandPrix = gson.fromJson(raceElement, GrandPrix.class);
                 grandPrix.setCircuit(circuit);
                 grandPrix.setCircuitId(circuitId);
@@ -129,12 +125,16 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
                 grandPrix.setSecondPractice(practice2);
                 grandPrix.setThirdPractice(practice3);
                 grandPrix.setQualifying(quali);
-                // Ajoutez d'autres informations au besoin
+
+
+
                 //resetDriverSelectionsFile();
+
+
+
                 grandPrixList.add(grandPrix);
             }
 
-            // Initialisez et attachez l'adaptateur au RecyclerView
             grandPrixAdapter = new GrandPrixAdapter(getActivity(), grandPrixList, this, driverDetails);
             loadSelectedPilots();
             new FetchResultTask(this).execute();
@@ -149,29 +149,23 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
 
 
     private void scrollToNextGP(List<GrandPrix> grandPrixList) {
-        // Logique pour trouver l'index du prochain Grand Prix
         int nextGPIndex = findNextGPIndex(grandPrixList);
 
-        // Faites défiler jusqu'au prochain Grand Prix
         recyclerRaceView.scrollToPosition(nextGPIndex);
     }
 
     private int findNextGPIndex(List<GrandPrix> grandPrixList) {
-        // Obtenez la date et l'heure actuelles
         Date currentDate = new Date();
 
-        // Parcourez la liste des Grands Prix pour trouver le prochain
         for (int i = 0; i < grandPrixList.size(); i++) {
             GrandPrix grandPrix = grandPrixList.get(i);
 
-            // Convertissez la date du Grand Prix en objet Date
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
             try {
                 Date raceDate = dateFormat.parse(grandPrix.getDate() + "T" + grandPrix.getTime());
 
-                // Comparez la date du Grand Prix avec la date actuelle
                 if (raceDate != null && raceDate.after(currentDate)) {
-                    // Si la date du Grand Prix est postérieure à la date actuelle, c'est le prochain
+
                     return i;
                 }
             } catch (ParseException e) {
@@ -179,7 +173,6 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
             }
         }
 
-        // Si aucun prochain Grand Prix n'est trouvé, retournez 0 (le premier Grand Prix)
         return 0;
     }
 
@@ -199,7 +192,7 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
 
     private void loadSelectedPilots() {
         String filename = "driver_selections.json";
-        Map<String, List<Driver>> driverSelections = new HashMap<>(); // Notez le changement de type ici
+        Map<String, List<Driver>> driverSelections = new HashMap<>();
         try {
             FileInputStream fis = requireContext().openFileInput(filename);
             InputStreamReader isr = new InputStreamReader(fis);
@@ -216,27 +209,24 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
                 String grandPrixId = selection.getString("grand_prix_id");
                 int podiumPlace = selection.getInt("podium_place");
                 String url = selection.getString("url");
-                String fullName = selection.getString("full_name"); // Ajout du fullname
+                String fullName = selection.getString("full_name");
 
-                Log.d("url_predi", url);
-                Log.d("fullname", fullName);
                 Driver driverInfo = new Driver(url, fullName);
 
                 driverSelections.putIfAbsent(grandPrixId, new ArrayList<>());
                 List<Driver> currentSelections = driverSelections.get(grandPrixId);
 
-                // Assurez-vous que la liste est assez grande pour contenir la nouvelle sélection
+
                 while (currentSelections.size() <= podiumPlace) {
-                    currentSelections.add(null); // Ajoutez des placeholders si nécessaire
+                    currentSelections.add(null);
                 }
-                currentSelections.set(podiumPlace - 1, driverInfo); // Décrémentez podiumPlace pour l'indexation basée sur zéro
+                currentSelections.set(podiumPlace - 1, driverInfo);
             }
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-        Log.d("driverSelection", driverSelections.toString());
-        grandPrixAdapter.updateDriverSelections(driverSelections); // Assurez-vous que updateDriverSelections accepte le nouveau type
+        grandPrixAdapter.updateDriverSelections(driverSelections);
     }
 
 
@@ -281,7 +271,6 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
             e.printStackTrace();
         }
 
-        Log.d("prediction4", predictionsList.toString());
         return predictionsList;
     }
 
@@ -310,8 +299,6 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
             grandPrixAdapter.notifyDataSetChanged();
             return;
         }
-        Log.d("resultats", listResults.toString());
-        Log.d("predictions5", listPredictions.toString());
 
 
         int correctPredictionsCount = 0;
@@ -332,11 +319,9 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
                     prediction.getDriver().setFullName(normalizeName(prediction.getDriver().getFullName()));
                     result.getDriver().setFullName(normalizeName(result.getDriver().getFullName()));
                     if (prediction.getPosition() == result.getPosition() && prediction.getDriver().getFullName().equals(result.getDriver().getFullName())) {
-                        Log.d("comparaison1", prediction.getDriver().getFullName());
-                        Log.d("comparaison2", result.getDriver().getFullName());
 
                         correctPredictionsCount++;
-                        break; // Trouvé la correspondance, pas besoin de chercher d'autres résultats pour cette prédiction
+                        break;
                     }
                 }
             }

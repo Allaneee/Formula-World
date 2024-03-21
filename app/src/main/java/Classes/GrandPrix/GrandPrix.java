@@ -2,8 +2,6 @@ package Classes.GrandPrix;
 
 import java.util.List;
 
-import Classes.GrandPrix.Results;
-
 public class GrandPrix {
     private String circuitId;
     private String season;
@@ -20,7 +18,6 @@ public class GrandPrix {
 
     private List<Results> results;
 
-    // Constructeur, getters et setters
 
     public GrandPrix(String season, int round, String url, String raceName, Circuit circuit, String date, String time, Practice firstPractice, Practice secondPractice, Practice thirdPractice, Practice qualifying, List<Results> results) {
         this.season = season;
@@ -34,7 +31,7 @@ public class GrandPrix {
         this.secondPractice = secondPractice;
         this.thirdPractice = thirdPractice;
         this.qualifying = qualifying;
-        this.results = results; // Initialiser le champ des résultats
+        this.results = results;
     }
 
     public String getCircuitId() {
@@ -126,14 +123,6 @@ public class GrandPrix {
                 ", qualifying=" + qualifying +
                 ", results=" + results +
                 '}';
-    }
-
-    public List<Results> getResults() {
-        return results;
-    }
-
-    public void setResults(List<Results> results) {
-        this.results = results;
     }
 }
 

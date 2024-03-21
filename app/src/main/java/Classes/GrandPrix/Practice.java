@@ -4,7 +4,6 @@ public class Practice {
     private String date;
     private String time;
 
-    // Constructeur, getters et setters
 
 
     public Practice(String date, String time) {

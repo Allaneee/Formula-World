@@ -1,5 +1,6 @@
 package Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,7 +36,7 @@ public class GrandPrixAdapter extends RecyclerView.Adapter<GrandPrixAdapter.Gran
         this.context = context;
         this.grandPrixList = grandPrixList;
         this.clickListener = listener;
-        this.driverSelections = driverSelections; // Ajoutez cette ligne
+        GrandPrixAdapter.driverSelections = driverSelections;
     }
 
     @NonNull
@@ -128,7 +129,6 @@ public class GrandPrixAdapter extends RecyclerView.Adapter<GrandPrixAdapter.Gran
             case "zandvoort":
                 holder.itemView.setBackgroundResource(R.drawable.zandvoort);
                 break;
-            // Ajoutez d'autres cas selon vos besoins pour d'autres pilotes
             default:
                 holder.itemView.setBackgroundResource(R.drawable.americas);
                 break;
@@ -143,6 +143,7 @@ public class GrandPrixAdapter extends RecyclerView.Adapter<GrandPrixAdapter.Gran
         return grandPrixList.size();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setActualResults(Map<String, List<Results>> actualResults) {
         GrandPrixAdapter.actualResults = actualResults;
         notifyDataSetChanged();
@@ -180,28 +181,28 @@ public class GrandPrixAdapter extends RecyclerView.Adapter<GrandPrixAdapter.Gran
             resultFirstImageView.setImageResource(R.drawable.baseline_question_mark_24);
             resultSecondImageView.setImageResource(R.drawable.baseline_question_mark_24);
             resultThirdImageView.setImageResource(R.drawable.baseline_question_mark_24);
-            // Utilisation des sélections de pilotes pour charger les images dans les ImageView
+
             List<Driver> selections = driverSelections.get(grandPrix.getRaceName());
             if (selections != null) {
                 String firstDriverUrl = selections.size() > 0 && selections.get(0) != null ? selections.get(0).getUrl() : null;
                 if (firstDriverUrl != null && !firstDriverUrl.isEmpty()) {
                     loadDriverImage(podiumFirstImageView, firstDriverUrl);
                 } else {
-                    podiumFirstImageView.setImageResource(R.drawable.baseline_add_24); // Ou une autre image par défaut
+                    podiumFirstImageView.setImageResource(R.drawable.baseline_add_24);
                 }
 
                 String secondDriverUrl = selections.size() > 1 && selections.get(1) != null ? selections.get(1).getUrl() : null;
                 if (secondDriverUrl != null && !secondDriverUrl.isEmpty()) {
                     loadDriverImage(podiumSecondImageView, secondDriverUrl);
                 } else {
-                    podiumSecondImageView.setImageResource(R.drawable.baseline_add_24); // Ou une autre image par défaut
+                    podiumSecondImageView.setImageResource(R.drawable.baseline_add_24);
                 }
 
                 String thirdDriverUrl = selections.size() > 2 && selections.get(2) != null ? selections.get(2).getUrl() : null;
                 if (thirdDriverUrl != null && !thirdDriverUrl.isEmpty()) {
                     loadDriverImage(podiumThirdImageView, thirdDriverUrl);
                 } else {
-                    podiumThirdImageView.setImageResource(R.drawable.baseline_add_24); // Ou une autre image par défaut
+                    podiumThirdImageView.setImageResource(R.drawable.baseline_add_24);
                 }
             }
 
@@ -217,13 +218,7 @@ public class GrandPrixAdapter extends RecyclerView.Adapter<GrandPrixAdapter.Gran
                         String predictedDriverFullName = normalizeName(predictedDriver.getFullName());
                         String actualDriverFullName = normalizeName(actualResult.getDriver().getFullName());
 
-                        if (predictedDriverFullName.equals(actualDriverFullName)) {
-                            // La prédiction pour cette position était correcte.
-                            updateFeedbackImageViewBasedOnPosition(i, true);
-                        } else {
-                            // La prédiction pour cette position était incorrecte.
-                            updateFeedbackImageViewBasedOnPosition(i, false);
-                        }
+                        updateFeedbackImageViewBasedOnPosition(i, predictedDriverFullName.equals(actualDriverFullName));
                     }
                 }
             }
@@ -242,7 +237,7 @@ public class GrandPrixAdapter extends RecyclerView.Adapter<GrandPrixAdapter.Gran
                     feedbackImageView = resultThirdImageView;
                     break;
                 default:
-                    return; // Position non gérée
+                    return;
             }
 
             if (isCorrect) {
@@ -256,11 +251,10 @@ public class GrandPrixAdapter extends RecyclerView.Adapter<GrandPrixAdapter.Gran
             if (imageUrl != null && !imageUrl.isEmpty()) {
                 Glide.with(itemView.getContext()).load(imageUrl).into(imageView);
             } else {
-                imageView.setImageResource(R.drawable.baseline_add_24); // Image par défaut si URL est nulle ou vide
+                imageView.setImageResource(R.drawable.baseline_add_24);
             }
         }
         private String normalizeName(String name) {
-            // Convertit le nom en minuscules, supprime les espaces et les tirets.
             return name.toLowerCase().replaceAll("\\s+", "").replaceAll("_", "");
         }
     }
@@ -268,8 +262,9 @@ public class GrandPrixAdapter extends RecyclerView.Adapter<GrandPrixAdapter.Gran
     public interface PodiumPlaceClickListener {
         void onPodiumPlaceClicked(int position, int podiumPlace, String grandPrixName);
     }
+    @SuppressLint("NotifyDataSetChanged")
     public void updateDriverSelections(Map<String, List<Driver>> newSelections) {
-        driverSelections = newSelections; // Utilisez driverSelections ici
+        driverSelections = newSelections;
         Log.d("newSelections", newSelections.toString());
         notifyDataSetChanged();
     }

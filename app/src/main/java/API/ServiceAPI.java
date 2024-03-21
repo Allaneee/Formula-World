@@ -12,17 +12,6 @@ public class ServiceAPI {
     private final String URL = "https://ergast.com/api/f1";
     private final String DRIVERS_PHOTO_URL = "https://api.openf1.org/v1/drivers?session_key=9466";
 
-    // Page classement et prédiction
-    public String getDrivers() throws IOException {
-        String url = URL + "/2024/drivers.json";
-        return getJson(url);
-    }
-
-    // Page classement
-    public String getDriverDetails(String driverId) throws IOException {
-        String url = URL + "/drivers/" + driverId + ".json";
-        return getJson(url);
-    }
 
     // Page classement
     public String getCurrentRankings() throws IOException {
@@ -34,17 +23,6 @@ public class ServiceAPI {
     public String getRaces() throws IOException {
         String url = URL + "/current.json";
         return getJson(url);
-    }
-
-    // Page accueil
-    public String getRaceDetails(String raceId) throws IOException {
-        String url = URL + "/2024/" + raceId + ".json";
-        return getJson(url);
-    }
-
-    // Pour les prédictions
-    public String getRaceResult() throws IOException {
-        return URL + "/current/results.json";
     }
 
     // Page classement

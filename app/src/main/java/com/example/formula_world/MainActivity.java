@@ -1,17 +1,12 @@
 package com.example.formula_world;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import Fragments.HomeFragment;
 import Fragments.RankingFragment;
 import Fragments.BettingFragment;
-import com.example.formula_world.R;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import com.example.formula_world.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {

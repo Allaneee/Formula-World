@@ -6,23 +6,12 @@ import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 import com.example.formula_world.R;
-
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.example.formula_world.databinding.FragmentTeamInfosBinding;
-
-import java.io.Serializable;
-import java.util.Objects;
 
 import Classes.Team;
 
@@ -33,7 +22,6 @@ public class TeamInfosFragment extends Fragment {
     private TextView tvPosition;
     private TextView tvWins;
     private TextView tvPoints;
-    private FragmentTeamInfosBinding binding;
 
     @SuppressLint({"SetTextI18n", "MissingInflatedId"})
     @Nullable
@@ -53,7 +41,6 @@ public class TeamInfosFragment extends Fragment {
 
             if (Team != null) {
                 tvTeamName.setText(Team.getname());
-                Log.d("TeamInfo", "Nationality: " + Team.getNationality());
                 tvPosition.setText("Position: " + Team.getranking());
                 tvWins.setText("Victoire: " + Team.getWins());
                 tvPoints.setText("Points: " + Team.getPoints());
@@ -72,6 +59,5 @@ public class TeamInfosFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
     }
 }
