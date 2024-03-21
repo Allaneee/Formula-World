@@ -41,7 +41,7 @@ public class TeamRankAdapter extends RecyclerView.Adapter<TeamRankAdapter.TeamVi
     public void onBindViewHolder(@NonNull TeamViewHolder holder, int position) {
         Team currentTeam = teamList.get(position);
         holder.tvName.setText(currentTeam.getname());
-        holder.tvPoints.setText(String.valueOf(currentTeam.getPoints()));
+        holder.tvPoints.setText(String.valueOf(currentTeam.getPoints()+ " points"));
         holder.tvRanking.setText(String.format(String.valueOf(currentTeam.getranking())));
         
         holder.itemView.setOnClickListener(v -> {
@@ -49,6 +49,43 @@ public class TeamRankAdapter extends RecyclerView.Adapter<TeamRankAdapter.TeamVi
                 clickListener.onTeamClick(currentTeam);
             }
         });
+
+        switch (currentTeam.getname()) {
+            case "Ferrari":
+                holder.itemView.setBackgroundResource(R.drawable.ferrari);
+                break;
+            case "Red Bull":
+                holder.itemView.setBackgroundResource(R.drawable.red_bull);
+                break;
+            case "McLaren":
+                holder.itemView.setBackgroundResource(R.drawable.mclaren);
+                break;
+            case "Mercedes":
+                holder.itemView.setBackgroundResource(R.drawable.mercedes);
+                break;
+            case "Aston Martin":
+                holder.itemView.setBackgroundResource(R.drawable.aston_martin);
+                break;
+            case "Williams":
+                holder.itemView.setBackgroundResource(R.drawable.williams);
+                break;
+            case "Sauber":
+                holder.itemView.setBackgroundResource(R.drawable.stake);
+                break;
+            case "Alpine F1 Team":
+                holder.itemView.setBackgroundResource(R.drawable.alpine);
+                break;
+            case "Haas F1 Team":
+                holder.itemView.setBackgroundResource(R.drawable.haas);
+                break;
+            case "RB F1 Team":
+                holder.itemView.setBackgroundResource(R.drawable.racing_bulls);
+                break;
+
+            default:
+                holder.itemView.setBackgroundResource(R.drawable.verstappen);
+                break;
+        }
     }
 
 

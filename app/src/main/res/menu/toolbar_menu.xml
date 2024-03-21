@@ -2,12 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+
+    >
 
     <item
         android:id="@+id/action_globe"
-        android:icon="@drawable/globe"
-        android:title="@string/globe" />
+        android:icon="@drawable/baseline_grid_on_24"
+        android:title="@string/bingo" />
     <item
         android:id="@+id/action_ranking"
         android:icon="@drawable/ranking"

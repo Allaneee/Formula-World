@@ -44,7 +44,7 @@ public class DriverRankAdapter extends RecyclerView.Adapter<DriverRankAdapter.Dr
     public void onBindViewHolder(@NonNull DriverViewHolder holder, int position) {
         Driver currentDriver = DriverList.get(position);
         holder.tvNom.setText(currentDriver.getGivenName() + " " + currentDriver.getFamilyName());
-        holder.tvPoints.setText(String.valueOf(currentDriver.getPoints()));
+        holder.tvPoints.setText(String.valueOf(currentDriver.getPoints()) + " points");
         holder.tvPosition.setText(String.valueOf(currentDriver.getPosition()));
 
         holder.itemView.setOnClickListener(v -> {
@@ -52,12 +52,76 @@ public class DriverRankAdapter extends RecyclerView.Adapter<DriverRankAdapter.Dr
                 clickListener.onDriverClick(currentDriver);
             }
         });
+        switch (currentDriver.getFamilyName()) {
+            case "Verstappen":
+                holder.itemView.setBackgroundResource(R.drawable.verstappen);
+                break;
+            case "Perez":
+                holder.itemView.setBackgroundResource(R.drawable.perez);
+                break;
+            case "Leclerc":
+                holder.itemView.setBackgroundResource(R.drawable.leclerc);
+                break;
+            case "Russell":
+                holder.itemView.setBackgroundResource(R.drawable.russel);
+                break;
+            case "Piastri":
+                holder.itemView.setBackgroundResource(R.drawable.piastri);
+                break;
+            case "Sainz":
+                holder.itemView.setBackgroundResource(R.drawable.sainz);
+                break;
+            case "Alonso":
+                holder.itemView.setBackgroundResource(R.drawable.alonso);
+                break;
+            case "Norris":
+                holder.itemView.setBackgroundResource(R.drawable.norris);
+                break;
+            case "Hamilton":
+                holder.itemView.setBackgroundResource(R.drawable.hamilton);
+                break;
+            case "Bearman":
+                holder.itemView.setBackgroundResource(R.drawable.bearman);
+                break;
+            case "Hulkenberg":
+                holder.itemView.setBackgroundResource(R.drawable.hulkenberg);
+                break;
+            case "Stroll":
+                holder.itemView.setBackgroundResource(R.drawable.stroll);
+                break;
+            case "Albon":
+                holder.itemView.setBackgroundResource(R.drawable.albon);
+                break;
+            case "Zhou":
+                holder.itemView.setBackgroundResource(R.drawable.guanyu);
+                break;
+            case "Magnussen":
+                holder.itemView.setBackgroundResource(R.drawable.magnussen);
+                break;
+            case "Ricciardo":
+                holder.itemView.setBackgroundResource(R.drawable.riccardo);
+                break;
+            case "Ocon":
+                holder.itemView.setBackgroundResource(R.drawable.ocon);
+                break;
+            case "Tsunoda":
+                holder.itemView.setBackgroundResource(R.drawable.tsunoda);
+                break;
+            case "Sargeant":
+                holder.itemView.setBackgroundResource(R.drawable.sargeant);
+                break;
+            case "Bottas":
+                holder.itemView.setBackgroundResource(R.drawable.bottas);
+                break;
+            case "Gasly":
+                holder.itemView.setBackgroundResource(R.drawable.gasly);
+                break;
+            // Ajoutez d'autres cas selon vos besoins pour d'autres pilotes
+            default:
+                holder.itemView.setBackgroundResource(R.drawable.verstappen);
+                break;
+        }
 
-        // Utilisation de Glide pour charger l'image du pilote à partir de l'URL
-        Glide.with(holder.itemView.getContext())
-                .load(currentDriver.getUrl()) // Assurez-vous que Driver a une méthode getPhotoUrl() retournant l'URL correcte
-                .placeholder(R.drawable.ic_driver_default) // Une image par défaut en attendant le chargement de l'image
-                .into(holder.ivPhotoDriver);
     }
 
     @Override
@@ -77,7 +141,6 @@ public class DriverRankAdapter extends RecyclerView.Adapter<DriverRankAdapter.Dr
             tvNom = itemView.findViewById(R.id.tvDriverName);
             tvPoints = itemView.findViewById(R.id.tvDriverPoints);
             tvPosition = itemView.findViewById(R.id.tvDriverPosition);
-            ivPhotoDriver = itemView.findViewById(R.id.ivDriverPhoto);
         }
     }
     public void setDrivers(List<Driver> drivers) {

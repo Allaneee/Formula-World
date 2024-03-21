@@ -1,38 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="8dp">
+    android:layout_height="160dp"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp">
 
-    <ImageView
-        android:id="@+id/ivDriverPhoto"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/ic_driver_default"
-        android:layout_marginEnd="16dp" />
 
-    <TextView
-        android:id="@+id/tvDriverPosition"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.05"
-        android:textSize="18sp"
-        android:text="@string/Position" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tvDriverName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="18sp"
-        android:text="@string/nom_du_pilote" />
+        <!-- TextView pour la position -->
+        <TextView
+            android:id="@+id/tvDriverPosition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textColor="@color/white"
+            android:text="@string/Position"
+            android:padding="10dp"
+            android:layout_centerVertical="true"/>
 
-    <TextView
-        android:id="@+id/tvDriverPoints"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="@string/points" />
+        <!-- LinearLayout vertical -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/tvDriverPosition"
+            android:orientation="vertical"
+            android:gravity="end"
+            android:paddingTop="60dp"
+            android:paddingEnd="10dp"
+            android:layout_centerVertical="true"
 
-</LinearLayout>
+            >
+
+            <!-- TextView pour le nom du pilote -->
+
+            <!-- TextView pour les points -->
+
+            <TextView
+                android:id="@+id/tvDriverName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nom_du_pilote"
+                android:textColor="@color/white"
+
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvDriverPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:padding="2dp"
+                android:background="@drawable/rounded_corner_white"
+                android:text="@string/points"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

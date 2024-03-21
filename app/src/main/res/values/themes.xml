@@ -5,5 +5,10 @@
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+    </style>
+    <style name="MenuStyle" parent="Theme.AppCompat.Light">
+        <item name="android:popupBackground">@drawable/rounded_corner</item> <!-- Utiliser le drawable avec coins arrondis comme couleur de fond -->
+        <item name="android:padding">8dp</item> <!-- Ajouter un padding de 8dp -->
     </style>
 </resources>

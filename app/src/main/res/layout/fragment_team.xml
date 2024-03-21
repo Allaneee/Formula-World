@@ -4,45 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/llclass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-
-        <TextView
-            android:id="@+id/tvTeamRanking"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.05"
-            android:textSize="18sp"
-            android:text="@string/ranking" />
-
-        <TextView
-            android:id="@+id/tvTeamName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="18sp"
-            android:text="@string/nom_de_la_team" />
-
-        <TextView
-            android:id="@+id/tvTeamPoints"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="@string/points" />
-
-
-
-    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTeam"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/llclass"/>
-
+        android:layout_height="match_parent" />
 </RelativeLayout>

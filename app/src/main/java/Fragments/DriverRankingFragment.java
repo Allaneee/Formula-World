@@ -115,6 +115,8 @@ public class DriverRankingFragment extends Fragment implements DriverRankAdapter
                 driver.setNationality(driverObj.has("nationality") ? driverObj.get("nationality").getAsString() : "");
                 driver.setPoints(driverStanding.getAsJsonObject().has("points") ? driverStanding.getAsJsonObject().get("points").getAsInt() : 0);
                 driver.setPosition(driverStanding.getAsJsonObject().has("position") ? driverStanding.getAsJsonObject().get("position").getAsInt() : 0);
+                driver.setWins(driverStanding.getAsJsonObject().has("wins") ? driverStanding.getAsJsonObject().get("wins").getAsInt() : 0);
+
                 driverList.add(driver);
             }
         }

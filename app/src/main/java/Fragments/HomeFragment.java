@@ -130,6 +130,9 @@ public class HomeFragment extends Fragment {
             // Recherche du bouton dans la vue inflatée
             Button buttonToggleEditText = view.findViewById(R.id.buttonToggleEditText);
             // Définir le texte du bouton en fonction de l'état des EditTexts
+            if(enableEditTexts){
+                savePredictions();
+            }
             buttonToggleEditText.setText(enableEditTexts ? R.string.valider : R.string.modifier);
 
 
@@ -156,7 +159,6 @@ public class HomeFragment extends Fragment {
             }
         }
         editor.apply();
-        Toast.makeText(requireContext(), "Prédictions enregistrées", Toast.LENGTH_SHORT).show();
     }
 
     private void loadPredictions() {

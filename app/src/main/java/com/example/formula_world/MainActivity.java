@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.action_globe) {
-                loadFragment(new BettingFragment());
+                loadFragment(new HomeFragment());
                 return true;
             } else if (itemId == R.id.action_ranking) {
                 loadFragment(new RankingFragment());

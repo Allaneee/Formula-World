@@ -5,8 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/f1_wallpaper"
+    android:layout_alignParentBottom="true"
     android:gravity="center"
+    android:background="@drawable/f1_wallpaper"
+
     android:orientation="vertical">
 
     <ImageView
@@ -19,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:layout_marginBottom="50dp"
         android:background="#00000000"
         app:cardCornerRadius="20dp"
         app:cardElevation="0dp">
@@ -34,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:layout_marginBottom="8dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp">
 
@@ -51,10 +55,10 @@
                     <EditText
                         android:id="@+id/predictionCell_0_0"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="90dp"
                         android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
                         android:allowClickWhenDisabled="true"
-                        android:autofillHints=""
                         android:clickable="true"
                         android:focusable="true"
                         android:gravity="center"
@@ -65,8 +69,10 @@
                     <EditText
                         android:id="@+id/predictionCell_0_1"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="90dp"
                         android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:allowClickWhenDisabled="true"
                         android:autofillHints=""
                         android:gravity="center"
                         android:hint="2"
@@ -76,8 +82,10 @@
                     <EditText
                         android:id="@+id/predictionCell_0_2"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="90dp"
                         android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:allowClickWhenDisabled="true"
                         android:autofillHints=""
                         android:gravity="center"
                         android:hint="3"
@@ -87,8 +95,11 @@
                     <EditText
                         android:id="@+id/predictionCell_0_3"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="90dp"
                         android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:allowClickWhenDisabled="true"
+
                         android:autofillHints=""
                         android:gravity="center"
                         android:hint="4"
@@ -99,9 +110,12 @@
                     <EditText
                         android:id="@+id/predictionCell_1_0"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="90dp"
                         android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
                         android:autofillHints=""
+                        android:allowClickWhenDisabled="true"
+
                         android:gravity="center"
                         android:hint="5"
                         android:textSize="15sp"
@@ -110,9 +124,12 @@
                     <EditText
                         android:id="@+id/predictionCell_1_1"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="90dp"
                         android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
                         android:autofillHints=""
+                        android:allowClickWhenDisabled="true"
+
                         android:gravity="center"
                         android:hint="6"
                         android:textSize="15sp"
@@ -121,9 +138,12 @@
                     <EditText
                         android:id="@+id/predictionCell_1_2"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="90dp"
                         android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
                         android:autofillHints=""
+                        android:allowClickWhenDisabled="true"
+
                         android:gravity="center"
                         android:hint="7"
                         android:textSize="15sp"
@@ -132,9 +152,12 @@
                     <EditText
                         android:id="@+id/predictionCell_1_3"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="90dp"
                         android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
                         android:autofillHints=""
+                        android:allowClickWhenDisabled="true"
+
                         android:gravity="center"
                         android:hint="8"
                         android:textSize="15sp"
@@ -144,9 +167,12 @@
                     <EditText
                         android:id="@+id/predictionCell_2_0"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="90dp"
                         android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
                         android:autofillHints=""
+                        android:allowClickWhenDisabled="true"
+
                         android:gravity="center"
                         android:hint="9"
                         android:textSize="15sp"
@@ -155,9 +181,12 @@
                     <EditText
                         android:id="@+id/predictionCell_2_1"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="90dp"
                         android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
                         android:autofillHints=""
+                        android:allowClickWhenDisabled="true"
+
                         android:gravity="center"
                         android:hint="10"
                         android:textSize="15sp"
@@ -166,9 +195,12 @@
                     <EditText
                         android:id="@+id/predictionCell_2_2"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="90dp"
                         android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
                         android:autofillHints=""
+                        android:allowClickWhenDisabled="true"
+
                         android:gravity="center"
                         android:hint="11"
                         android:textSize="15sp"
@@ -177,9 +209,12 @@
                     <EditText
                         android:id="@+id/predictionCell_2_3"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="90dp"
                         android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
                         android:autofillHints=""
+                        android:allowClickWhenDisabled="true"
+
                         android:gravity="center"
                         android:hint="12"
                         android:textSize="15sp"
@@ -189,9 +224,12 @@
                     <EditText
                         android:id="@+id/predictionCell_3_0"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="90dp"
                         android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
                         android:autofillHints=""
+                        android:allowClickWhenDisabled="true"
+
                         android:gravity="center"
                         android:hint="13"
                         android:textSize="15sp"
@@ -200,10 +238,13 @@
                     <EditText
                         android:id="@+id/predictionCell_3_1"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="90dp"
                         android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
                         android:autofillHints=""
                         android:gravity="center"
+                        android:allowClickWhenDisabled="true"
+
                         android:hint="14"
                         android:textSize="15sp"
                         android:inputType="textMultiLine" />
@@ -211,9 +252,12 @@
                     <EditText
                         android:id="@+id/predictionCell_3_2"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="90dp"
                         android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
                         android:autofillHints=""
+                        android:allowClickWhenDisabled="true"
+
                         android:gravity="center"
                         android:hint="15"
                         android:textSize="15sp"
@@ -222,9 +266,12 @@
                     <EditText
                         android:id="@+id/predictionCell_3_3"
                         android:layout_width="0dp"
-                        android:layout_height="100dp"
+                        android:layout_height="90dp"
                         android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
                         android:autofillHints=""
+                        android:allowClickWhenDisabled="true"
+
                         android:gravity="center"
                         android:hint="16"
                         android:textSize="15sp"
@@ -239,7 +286,9 @@
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
+                android:padding="8dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
                 android:progressDrawable="@drawable/progress_bar_custom" />
 
             <Button
