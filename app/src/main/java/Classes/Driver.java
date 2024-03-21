@@ -13,6 +13,11 @@ public class Driver implements Serializable {
     public Driver() {
     }
 
+    public Driver(String fullName, String url) {
+        this.fullName = fullName;
+        this.url = url;
+    }
+
     // Getters et setters
     public String getDriverId() { return driverId; }
     public void setDriverId(String driverId) { this.driverId = driverId; }
@@ -57,4 +62,12 @@ public class Driver implements Serializable {
 
     public Team[] getConstructors() { return constructors; }
     public void setConstructors(Team[] constructors) { this.constructors = constructors; }
+
+    @Override
+    public String toString() {
+        return "Driver{" +
+                "fullname='" + fullName + '\'' +
+                '}';
+    }
+
 }

@@ -1,16 +1,7 @@
 package API;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import Classes.Driver;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -53,8 +44,7 @@ public class ServiceAPI {
 
     // Pour les prédictions
     public String getRaceResult() throws IOException {
-        String url = URL + "/current/2024.json";
-        return getJson(url);
+        return URL + "/current/results.json";
     }
 
     // Page classement
