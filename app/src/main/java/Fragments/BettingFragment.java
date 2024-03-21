@@ -1,7 +1,6 @@
 package Fragments;
 
 // BettingFragment.java
-import static Adapter.GrandPrixAdapter.driverSelections;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -131,7 +130,7 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
                 grandPrix.setThirdPractice(practice3);
                 grandPrix.setQualifying(quali);
                 // Ajoutez d'autres informations au besoin
-
+                //resetDriverSelectionsFile();
                 grandPrixList.add(grandPrix);
             }
 
@@ -200,6 +199,7 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
 
     private void loadSelectedPilots() {
         String filename = "driver_selections.json";
+        Map<String, List<Driver>> driverSelections = new HashMap<>(); // Notez le changement de type ici
         try {
             FileInputStream fis = requireContext().openFileInput(filename);
             InputStreamReader isr = new InputStreamReader(fis);
@@ -216,27 +216,29 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
                 String grandPrixId = selection.getString("grand_prix_id");
                 int podiumPlace = selection.getInt("podium_place");
                 String url = selection.getString("url");
-                String fullName = selection.getString("full_name");
+                String fullName = selection.getString("full_name"); // Ajout du fullname
 
-                Driver driver = new Driver(fullName, url); // Ajustez le constructeur de Driver pour accepter fullName et url
+                Log.d("url_predi", url);
+                Log.d("fullname", fullName);
+                Driver driverInfo = new Driver(url, fullName);
 
-                driverDetails.putIfAbsent(grandPrixId, new ArrayList<>());
-                List<Driver> details = driverDetails.get(grandPrixId);
+                driverSelections.putIfAbsent(grandPrixId, new ArrayList<>());
+                List<Driver> currentSelections = driverSelections.get(grandPrixId);
 
-                // Assurez-vous que la liste est assez grande
-                while (details.size() <= podiumPlace) {
-                    details.add(null); // Ajoutez des placeholders
+                // Assurez-vous que la liste est assez grande pour contenir la nouvelle sélection
+                while (currentSelections.size() <= podiumPlace) {
+                    currentSelections.add(null); // Ajoutez des placeholders si nécessaire
                 }
-                details.set(podiumPlace - 1, driver);
+                currentSelections.set(podiumPlace - 1, driverInfo); // Décrémentez podiumPlace pour l'indexation basée sur zéro
             }
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-
-        // Vous pouvez maintenant utiliser `driverDetails` pour ajuster les sélections dans votre adapter
-        grandPrixAdapter.updateDriverSelections(driverDetails);
+        Log.d("driverSelection", driverSelections.toString());
+        grandPrixAdapter.updateDriverSelections(driverSelections); // Assurez-vous que updateDriverSelections accepte le nouveau type
     }
+
 
 
 
