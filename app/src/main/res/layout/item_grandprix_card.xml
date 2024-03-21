@@ -14,32 +14,37 @@
 
         <TextView
             android:id="@+id/textViewGrandPrixName"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:layout_marginBottom="8dp"/>
-
-        <TextView
-            android:id="@+id/textViewGrandPrixLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textViewGrandPrixName"
-            android:textSize="14sp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:text="Nom de la course"/>
 
         <TextView
             android:id="@+id/textViewGrandPrixDate"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textViewGrandPrixLocation"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:layout_alignParentEnd="true"
+            android:text="Date de la course"/>
+
+        <TextView
+            android:id="@+id/tvpodium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewGrandPrixDate"
+            android:gravity="center"
+            android:text="Podium"
+            android:layout_marginTop="15dp"
+            android:textSize="15sp"/>
         <!-- Les trois carrés représentant le podium -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@id/textViewGrandPrixDate"
-            android:gravity="center_horizontal">
+            android:layout_below="@id/tvpodium"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="15dp">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
