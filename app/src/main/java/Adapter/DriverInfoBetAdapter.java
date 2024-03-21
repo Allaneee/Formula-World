@@ -1,15 +1,15 @@
 package Adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.formula_world.R;
 
 import java.util.List;
@@ -20,25 +20,29 @@ public class DriverInfoBetAdapter extends RecyclerView.Adapter<DriverInfoBetAdap
 
     private final Context context;
     private final List<Driver> driverList;
+    private final OnDriverClickListener clickListener;
 
-    public DriverInfoBetAdapter(Context context, List<Driver> driverList) {
+    public DriverInfoBetAdapter(Context context, List<Driver> driverList, OnDriverClickListener listener) {
         this.context = context;
-        Log.d("driverlist", String.valueOf(driverList.size()));
         this.driverList = driverList;
+        this.clickListener = listener;
     }
 
     @NonNull
     @Override
     public DriverViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d("test," , "test");
         View view = LayoutInflater.from(context).inflate(R.layout.item_driver_bet, parent, false);
-        return new DriverViewHolder(view);
+        return new DriverViewHolder(view, clickListener); // Passer clickListener ici
     }
 
     @Override
     public void onBindViewHolder(@NonNull DriverViewHolder holder, int position) {
         Driver driver = driverList.get(position);
         holder.bind(driver);
+
+
+        holder.itemView.setOnClickListener(v -> { clickListener.onDriverClicked(driver);          });
+
     }
 
     @Override
@@ -46,22 +50,30 @@ public class DriverInfoBetAdapter extends RecyclerView.Adapter<DriverInfoBetAdap
         return driverList.size();
     }
 
-    static class DriverViewHolder extends RecyclerView.ViewHolder {
-        private final TextView driverNameTextView;
-        private final TextView driverNationalityTextView;
+    public interface OnDriverClickListener {
+        void onDriverClicked(Driver driver);
+    }
 
-        public DriverViewHolder(@NonNull View itemView) {
+    class DriverViewHolder extends RecyclerView.ViewHolder {
+        private final TextView driverNameTextView;
+        private final ImageView driverPhotoImageView;
+
+        DriverViewHolder(View itemView, OnDriverClickListener listener) { // Correction ici
             super(itemView);
-            driverNameTextView = itemView.findViewById(R.id.textViewDriverName);
-            driverNationalityTextView = itemView.findViewById(R.id.textViewDriverNationality);
+            driverNameTextView = itemView.findViewById(R.id.tvDriverName);
+            driverPhotoImageView = itemView.findViewById(R.id.ivDriverPhoto);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onDriverClicked(driverList.get(position)); // Utilisation correcte du listener
+                }
+            });
         }
 
-        @SuppressLint("SetTextI18n")
-        public void bind(Driver driver) {
-            Log.d("test driver", driver.toString());
-            driverNameTextView.setText(driver.getGivenName() + " " + driver.getFamilyName());
-            driverNationalityTextView.setText(driver.getNationality());
+        void bind(Driver driver) {
+            driverNameTextView.setText(driver.getFullName());
+            Glide.with(itemView.getContext()).load(driver.getUrl()).into(driverPhotoImageView);
         }
     }
 }
-

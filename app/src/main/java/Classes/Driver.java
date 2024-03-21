@@ -5,12 +5,17 @@ import java.io.Serializable;
 public class Driver implements Serializable {
     private String driverId; // Correspond à "driverId" dans le JSON
     private int permanentNumber, points, position; // position correspond à "position" dans le JSON
-    private String code, givenName, familyName, dateOfBirth, nationality, url; // Ajout de l'URL
+    private String code, givenName, familyName, dateOfBirth, nationality, url, fullName; // Ajout de l'URL
     private int wins;
     private Team[] constructors; // Correspond aux "Constructors" dans le JSON, supposez que Team est correctement défini
 
     // Constructeur par défaut
     public Driver() {
+    }
+
+    public Driver(String fullName, String url) {
+        this.fullName = fullName;
+        this.url = url;
     }
 
     // Getters et setters
@@ -47,6 +52,22 @@ public class Driver implements Serializable {
     public String getUrl() { return url; }
     public void setUrl(String url) { this.url = url; }
 
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
     public Team[] getConstructors() { return constructors; }
     public void setConstructors(Team[] constructors) { this.constructors = constructors; }
+
+    @Override
+    public String toString() {
+        return "Driver{" +
+                "fullname='" + fullName + '\'' +
+                '}';
+    }
+
 }

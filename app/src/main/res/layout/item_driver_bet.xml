@@ -3,19 +3,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/textViewDriverName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+    <ImageView
+        android:id="@+id/ivDriverPhoto"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_driver_default"
+        android:layout_marginEnd="16dp" />
 
     <TextView
-        android:id="@+id/textViewDriverNationality"
-        android:layout_width="match_parent"
+        android:id="@+id/tvDriverName"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"/>
+        android:layout_weight="1"
+        android:textSize="18sp"
+        android:text="@string/nom_du_pilote" />
+
 </LinearLayout>
