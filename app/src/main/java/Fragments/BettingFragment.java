@@ -104,6 +104,7 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
             for (JsonElement raceElement : racesArray) {
                 JsonObject raceObject = raceElement.getAsJsonObject();
                 JsonObject circuitObject = raceObject.getAsJsonObject("Circuit");
+                String circuitId = circuitObject.get("circuitId").getAsString();
                 JsonObject locationObject = circuitObject.getAsJsonObject("Location");
                 JsonObject firstObject = raceObject.getAsJsonObject("FirstPractice");
                 JsonObject secondObject = raceObject.getAsJsonObject("SecondPractice");
@@ -111,16 +112,20 @@ public class BettingFragment extends Fragment implements OnRacesFetchedListener,
                 JsonObject qualiObject = raceObject.getAsJsonObject("Qualifying");
                 //Log.d("Location", locationObject.toString());
                 Circuit circuit = gson.fromJson(circuitObject, Circuit.class);
+
                 Location location = gson.fromJson(locationObject, Location.class);
+
                 Practice practice1 = gson.fromJson(firstObject, Practice.class);
                 Practice practice2 = gson.fromJson(secondObject, Practice.class);
                 Practice practice3 = gson.fromJson(thirdObject, Practice.class);
                 Practice quali = gson.fromJson(qualiObject, Practice.class);
                 location.setLongitude(String.valueOf((locationObject.get("long"))));
                 circuit.setLocation(location);
+                circuit.setCircuitId(circuitId);
                 // Créez un objet GrandPrix avec les autres informations nécessaires
                 GrandPrix grandPrix = gson.fromJson(raceElement, GrandPrix.class);
                 grandPrix.setCircuit(circuit);
+                grandPrix.setCircuitId(circuitId);
                 grandPrix.setFirstPractice(practice1);
                 grandPrix.setSecondPractice(practice2);
                 grandPrix.setThirdPractice(practice3);

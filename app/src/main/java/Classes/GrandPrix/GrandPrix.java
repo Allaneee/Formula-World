@@ -5,6 +5,7 @@ import java.util.List;
 import Classes.GrandPrix.Results;
 
 public class GrandPrix {
+    private String circuitId;
     private String season;
     private int round;
     private String url;
@@ -34,6 +35,14 @@ public class GrandPrix {
         this.thirdPractice = thirdPractice;
         this.qualifying = qualifying;
         this.results = results; // Initialiser le champ des résultats
+    }
+
+    public String getCircuitId() {
+        return circuitId;
+    }
+
+    public void setCircuitId(String circuitId) {
+        this.circuitId = circuitId;
     }
 
     public String getRaceName() {
@@ -99,6 +108,7 @@ public class GrandPrix {
     public void setQualifying(Practice qualifying) {
         this.qualifying = qualifying;
     }
+
 
     @Override
     public String toString() {

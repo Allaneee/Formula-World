@@ -55,6 +55,87 @@ public class GrandPrixAdapter extends RecyclerView.Adapter<GrandPrixAdapter.Gran
         holder.itemView.findViewById(R.id.podiumThird).setOnClickListener(v -> clickListener.onPodiumPlaceClicked(position, 3, grandPrixList.get(position).getRaceName()));
 
 
+        switch (grandPrix.getCircuitId()) {
+            case "albert_park":
+                holder.itemView.setBackgroundResource(R.drawable.albert_park);
+                break;
+            case "americas":
+                holder.itemView.setBackgroundResource(R.drawable.americas);
+                break;
+            case "baku":
+                holder.itemView.setBackgroundResource(R.drawable.baku);
+                break;
+            case "bahrain":
+                holder.itemView.setBackgroundResource(R.drawable.bahrain);
+                break;
+            case "catalunya":
+                holder.itemView.setBackgroundResource(R.drawable.catalunya);
+                break;
+            case "hungaroring":
+                holder.itemView.setBackgroundResource(R.drawable.hungaroring);
+                break;
+            case "imola":
+                holder.itemView.setBackgroundResource(R.drawable.imola);
+                break;
+            case "interlagos":
+                holder.itemView.setBackgroundResource(R.drawable.interlagos);
+                break;
+            case "jeddah":
+                holder.itemView.setBackgroundResource(R.drawable.jeddah);
+                break;
+            case "losail":
+                holder.itemView.setBackgroundResource(R.drawable.losail);
+                break;
+            case "marina_bay":
+                holder.itemView.setBackgroundResource(R.drawable.marina_bay);
+                break;
+            case "miami":
+                holder.itemView.setBackgroundResource(R.drawable.miami);
+                break;
+            case "monaco":
+                holder.itemView.setBackgroundResource(R.drawable.monaco);
+                break;
+            case "monza":
+                holder.itemView.setBackgroundResource(R.drawable.monza);
+                break;
+            case "red_bull_ring":
+                holder.itemView.setBackgroundResource(R.drawable.red_bull_ring);
+                break;
+            case "rodriguez":
+                holder.itemView.setBackgroundResource(R.drawable.rodriguez);
+                break;
+            case "shanghai":
+                holder.itemView.setBackgroundResource(R.drawable.shanghai);
+                break;
+            case "silverstone":
+                holder.itemView.setBackgroundResource(R.drawable.silverstone);
+                break;
+            case "spa":
+                holder.itemView.setBackgroundResource(R.drawable.spa);
+                break;
+            case "suzuka":
+                holder.itemView.setBackgroundResource(R.drawable.suzuka);
+                break;
+            case "vegas":
+                holder.itemView.setBackgroundResource(R.drawable.vegas);
+                break;
+            case "villeneuve":
+                holder.itemView.setBackgroundResource(R.drawable.villeneuve);
+                break;
+            case "yas_marina":
+                holder.itemView.setBackgroundResource(R.drawable.spa);
+                break;
+            case "zandvoort":
+                holder.itemView.setBackgroundResource(R.drawable.zandvoort);
+                break;
+            // Ajoutez d'autres cas selon vos besoins pour d'autres pilotes
+            default:
+                holder.itemView.setBackgroundResource(R.drawable.americas);
+                break;
+        }
+
+
+
     }
 
     @Override
@@ -92,7 +173,8 @@ public class GrandPrixAdapter extends RecyclerView.Adapter<GrandPrixAdapter.Gran
         }
 
         public void bind(GrandPrix grandPrix) {
-            grandPrixNameTextView.setText(grandPrix.getRaceName());
+            String raceNameWithoutGrandPrix = grandPrix.getRaceName().replace("Grand Prix", "GP").trim();
+            grandPrixNameTextView.setText(raceNameWithoutGrandPrix);
             grandPrixDateTextView.setText(grandPrix.getDate());
 
             resultFirstImageView.setImageResource(R.drawable.baseline_question_mark_24);
