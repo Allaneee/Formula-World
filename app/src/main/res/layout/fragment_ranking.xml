@@ -4,7 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="Fragments.RankingFragment">
-
+    <RelativeLayout
+        android:id="@id/llToggleGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black">
     <TextView
         android:id="@+id/tvClassementTitle"
         android:layout_width="wrap_content"
@@ -13,6 +17,7 @@
         android:text="@string/ranking"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/white"
         android:layout_marginTop="16dp"/>
 
     <LinearLayout
@@ -35,6 +40,7 @@
             android:textSize="18sp"
             android:padding="10dp"
             android:clickable="true"
+            android:textColor="@color/classements_selected_color"
             android:focusable="true"
             android:gravity="center"
             android:background="@drawable/text_view_selector" />
@@ -50,9 +56,11 @@
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
+            android:textColor="@color/classements_selected_color"
             android:background="@drawable/text_view_selector" />
 
     </LinearLayout>
+    </RelativeLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
