@@ -13,9 +13,9 @@ public class Driver implements Serializable {
     public Driver() {
     }
 
-    public Driver(String fullName, String url) {
-        this.fullName = fullName;
+    public Driver(String url, String fullName) {
         this.url = url;
+        this.fullName = fullName;
     }
 
     // Getters et setters
@@ -66,7 +66,8 @@ public class Driver implements Serializable {
     @Override
     public String toString() {
         return "Driver{" +
-                "fullname='" + fullName + '\'' +
+                "url='" + url + '\'' +
+                ", fullname='" + fullName + '\'' +
                 '}';
     }
 

@@ -183,30 +183,47 @@ public class GrandPrixAdapter extends RecyclerView.Adapter<GrandPrixAdapter.Gran
             // Utilisation des sélections de pilotes pour charger les images dans les ImageView
             List<Driver> selections = driverSelections.get(grandPrix.getRaceName());
             if (selections != null) {
-                loadDriverImage(podiumFirstImageView, selections.size() > 0 ? selections.get(0).getUrl() : null);
-                loadDriverImage(podiumSecondImageView, selections.size() > 1 ? selections.get(1).getUrl() : null);
-                loadDriverImage(podiumThirdImageView, selections.size() > 2 ? selections.get(2).getUrl() : null);
-            } else {
-                podiumFirstImageView.setImageResource(R.drawable.baseline_add_24);
-                podiumSecondImageView.setImageResource(R.drawable.baseline_add_24);
-                podiumThirdImageView.setImageResource(R.drawable.baseline_add_24);
+                String firstDriverUrl = selections.size() > 0 && selections.get(0) != null ? selections.get(0).getUrl() : null;
+                if (firstDriverUrl != null && !firstDriverUrl.isEmpty()) {
+                    loadDriverImage(podiumFirstImageView, firstDriverUrl);
+                } else {
+                    podiumFirstImageView.setImageResource(R.drawable.baseline_add_24); // Ou une autre image par défaut
+                }
+
+                String secondDriverUrl = selections.size() > 1 && selections.get(1) != null ? selections.get(1).getUrl() : null;
+                if (secondDriverUrl != null && !secondDriverUrl.isEmpty()) {
+                    loadDriverImage(podiumSecondImageView, secondDriverUrl);
+                } else {
+                    podiumSecondImageView.setImageResource(R.drawable.baseline_add_24); // Ou une autre image par défaut
+                }
+
+                String thirdDriverUrl = selections.size() > 2 && selections.get(2) != null ? selections.get(2).getUrl() : null;
+                if (thirdDriverUrl != null && !thirdDriverUrl.isEmpty()) {
+                    loadDriverImage(podiumThirdImageView, thirdDriverUrl);
+                } else {
+                    podiumThirdImageView.setImageResource(R.drawable.baseline_add_24); // Ou une autre image par défaut
+                }
             }
+
 
             List<Driver> predictions = driverSelections.get(grandPrix.getRaceName());
             List<Results> resultsForThisGrandPrix = actualResults.get(grandPrix.getRaceName());
-            if (predictions != null && resultsForThisGrandPrix != null) {
+            if (predictions != null && resultsForThisGrandPrix != null && !predictions.isEmpty() && !resultsForThisGrandPrix.isEmpty()) {
                 for (int i = 0; i < predictions.size() && i < resultsForThisGrandPrix.size(); i++) {
-                    String predictedDriverFullName = normalizeName(predictions.get(i).getFullName());
-                    String actualDriverFullName = normalizeName(resultsForThisGrandPrix.get(i).getDriver().getFullName());
-                    Log.d("Predictate_Driver", predictedDriverFullName);
-                    Log.d("actualDriverName", actualDriverFullName);
+                    Driver predictedDriver = predictions.get(i);
+                    Results actualResult = resultsForThisGrandPrix.get(i);
 
-                    if (predictedDriverFullName.equals(actualDriverFullName)) {
-                        // La prédiction pour cette position était correcte.
-                        updateFeedbackImageViewBasedOnPosition(i, true);
-                    } else {
-                        // La prédiction pour cette position était incorrecte.
-                        updateFeedbackImageViewBasedOnPosition(i, false);
+                    if (predictedDriver != null && actualResult != null) {
+                        String predictedDriverFullName = normalizeName(predictedDriver.getFullName());
+                        String actualDriverFullName = normalizeName(actualResult.getDriver().getFullName());
+
+                        if (predictedDriverFullName.equals(actualDriverFullName)) {
+                            // La prédiction pour cette position était correcte.
+                            updateFeedbackImageViewBasedOnPosition(i, true);
+                        } else {
+                            // La prédiction pour cette position était incorrecte.
+                            updateFeedbackImageViewBasedOnPosition(i, false);
+                        }
                     }
                 }
             }
