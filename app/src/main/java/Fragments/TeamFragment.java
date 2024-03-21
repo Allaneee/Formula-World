@@ -2,7 +2,6 @@ package Fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import com.example.formula_world.R;
 
 import API.ServiceAPI;
 import Classes.Team;
-import Adapter.TeamAdapter;
+import Adapter.TeamRankAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -26,10 +25,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamFragment extends Fragment {
+public class TeamFragment extends Fragment implements TeamRankAdapter.TeamClickListener {
 
     private RecyclerView recyclerView;
-    private TeamAdapter teamAdapter;
+    private TeamRankAdapter teamAdapter;
     private ServiceAPI serviceAPI;
 
     public TeamFragment() {    }
@@ -38,16 +37,16 @@ public class TeamFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_team, container, false);
 
         recyclerView = view.findViewById(R.id.rvTeam);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        teamAdapter = new TeamAdapter(new ArrayList<>(), requireContext());
+        teamAdapter = new TeamRankAdapter(new ArrayList<>(), requireContext());
         recyclerView.setAdapter(teamAdapter);
 
         serviceAPI = new ServiceAPI();
         fetchTeamData();
+        teamAdapter.setTeamClickListener(this);
 
         return view;
     }
@@ -87,11 +86,25 @@ public class TeamFragment extends Fragment {
                         team.setname(teamObject.get("name").getAsString());
                         team.setPoints(Integer.parseInt(teamStanding.getAsJsonObject().get("points").getAsString()));
                         team.setranking(Integer.parseInt(teamStanding.getAsJsonObject().get("position").getAsString()));
+                        team.setNationality(teamObject.get("nationality").getAsString());
+                        team.setWins(Integer.parseInt(teamStanding.getAsJsonObject().get("wins").getAsString()));
                         teamList.add(team);
                     }
                 }
             }
         }
         return teamList;
+    }
+    @Override
+    public void onTeamClick(Team team) {
+        TeamInfosFragment detailFragment = new TeamInfosFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Team", team);
+        detailFragment.setArguments(bundle);
+
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, detailFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

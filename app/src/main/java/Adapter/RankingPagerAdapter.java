@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import Fragments.DriverFragment;
+import Fragments.DriverRankingFragment;
 import Fragments.TeamFragment;
 
 public class RankingPagerAdapter extends FragmentPagerAdapter {
@@ -21,7 +21,7 @@ public class RankingPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: // Fragment #0 - Cela affichera le classement des pilotes
-                return new DriverFragment();
+                return new DriverRankingFragment();
             case 1: // Fragment #1 - Cela affichera le classement des constructeurs
                 return new TeamFragment();
             default:

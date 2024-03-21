@@ -1,33 +1,41 @@
 package Classes;
 
-public class Driver {
-    private String id; // nom de famille du pilote en minuscule, rendu non statique
-    private int number, points, ranking;
-    private String code, firstname, name, dayofbirth, nationality, picURL;
-    private Team team; // Assurez-vous que la classe Team est bien définie quelque part
+import java.io.Serializable;
+
+public class Driver implements Serializable {
+    private String driverId; // Correspond à "driverId" dans le JSON
+    private int permanentNumber, points, position; // position correspond à "position" dans le JSON
+    private String code, givenName, familyName, dateOfBirth, nationality, url, fullName; // Ajout de l'URL
+    private int wins;
+    private Team[] constructors; // Correspond aux "Constructors" dans le JSON, supposez que Team est correctement défini
 
     // Constructeur par défaut
     public Driver() {
     }
 
-    // Getters et setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; } // Modifier pour utiliser l'instance courante
+    public Driver(String fullName, String url) {
+        this.fullName = fullName;
+        this.url = url;
+    }
 
-    public int getNumber() { return number; }
-    public void setNumber(int number) { this.number = number; } // Corriger le paramètre
+    // Getters et setters
+    public String getDriverId() { return driverId; }
+    public void setDriverId(String driverId) { this.driverId = driverId; }
+
+    public int getPermanentNumber() { return permanentNumber; }
+    public void setPermanentNumber(int permanentNumber) { this.permanentNumber = permanentNumber; }
 
     public String getCode() { return code; }
     public void setCode(String code) { this.code = code; }
 
-    public String getFirstname() { return firstname; }
-    public void setFirstname(String firstname) { this.firstname = firstname; }
+    public String getGivenName() { return givenName; }
+    public void setGivenName(String givenName) { this.givenName = givenName; }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getFamilyName() { return familyName; }
+    public void setFamilyName(String familyName) { this.familyName = familyName; }
 
-    public String getDayofbirth() { return dayofbirth; }
-    public void setDayofbirth(String dayofbirth) { this.dayofbirth = dayofbirth; }
+    public String getDateOfBirth() { return dateOfBirth; }
+    public void setDateOfBirth(String dateOfBirth) { this.dateOfBirth = dateOfBirth; }
 
     public String getNationality() { return nationality; }
     public void setNationality(String nationality) { this.nationality = nationality; }
@@ -35,14 +43,31 @@ public class Driver {
     public int getPoints() { return points; }
     public void setPoints(int points) { this.points = points; }
 
-    public int getRanking() { return ranking; }
-    public void setRanking(int ranking) { this.ranking = ranking; } // Modifier pour utiliser l'instance courante
+    public int getPosition() { return position; }
+    public void setPosition(int position) { this.position = position; }
 
-    public Team getTeam() { return team; }
-    public void setTeam(Team team) { this.team = team; }
+    public int getWins() { return wins; }
+    public void setWins(int wins) { this.wins = wins; }
 
+    public String getUrl() { return url; }
+    public void setUrl(String url) { this.url = url; }
 
-    public String getPicURL() { return picURL; }
-    public void setPicURL(String picURL) { this.picURL = picURL; }
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public Team[] getConstructors() { return constructors; }
+    public void setConstructors(Team[] constructors) { this.constructors = constructors; }
+
+    @Override
+    public String toString() {
+        return "Driver{" +
+                "fullname='" + fullName + '\'' +
+                '}';
+    }
 
 }

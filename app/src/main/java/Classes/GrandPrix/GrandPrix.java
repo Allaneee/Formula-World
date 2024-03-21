@@ -1,5 +1,9 @@
 package Classes.GrandPrix;
 
+import java.util.List;
+
+import Classes.GrandPrix.Results;
+
 public class GrandPrix {
     private String season;
     private int round;
@@ -13,9 +17,11 @@ public class GrandPrix {
     private Practice thirdPractice;
     private Practice qualifying;
 
+    private List<Results> results;
+
     // Constructeur, getters et setters
 
-    public GrandPrix(String season, int round, String url, String raceName, Circuit circuit, String date, String time, Practice firstPractice, Practice secondPractice, Practice thirdPractice, Practice qualifying) {
+    public GrandPrix(String season, int round, String url, String raceName, Circuit circuit, String date, String time, Practice firstPractice, Practice secondPractice, Practice thirdPractice, Practice qualifying, List<Results> results) {
         this.season = season;
         this.round = round;
         this.url = url;
@@ -27,6 +33,7 @@ public class GrandPrix {
         this.secondPractice = secondPractice;
         this.thirdPractice = thirdPractice;
         this.qualifying = qualifying;
+        this.results = results; // Initialiser le champ des résultats
     }
 
     public String getRaceName() {
@@ -107,7 +114,16 @@ public class GrandPrix {
                 ", secondPractice=" + secondPractice +
                 ", thirdPractice=" + thirdPractice +
                 ", qualifying=" + qualifying +
+                ", results=" + results +
                 '}';
+    }
+
+    public List<Results> getResults() {
+        return results;
+    }
+
+    public void setResults(List<Results> results) {
+        this.results = results;
     }
 }
 
